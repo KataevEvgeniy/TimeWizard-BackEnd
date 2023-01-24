@@ -33,6 +33,9 @@ public class UserTask {
 	private Date date;
 	
 	private Boolean completed;
+
+	@Column(name="color")
+	private String colorInHex;
 	
 	public UserTask(String title,String definition, String email, Date startDate, Date endDate, Date date) {
 		

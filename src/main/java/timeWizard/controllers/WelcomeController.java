@@ -43,14 +43,14 @@ public class WelcomeController {
 			user = mapper.readValue((new StringReader(userRegisterData)), User.class);
 		} catch (IOException e) {e.printStackTrace();}
 		
-		if(user == null) return new ResponseEntity<String>("app.User may not have been initialized", HttpStatus.BAD_REQUEST);
+		if(user == null) return new ResponseEntity<String>("User may not have been initialized", HttpStatus.BAD_REQUEST);
 		
 		user.encryptPassword();
 
 		try {
 			MainDAO.create(user);
 		} catch (SQLDataException e) {
-			return new ResponseEntity<String>("app.User already registered", headers, HttpStatus.BAD_REQUEST);
+			return new ResponseEntity<String>("User already registered", headers, HttpStatus.BAD_REQUEST);
 		}
 		
 		AuthToken token = new AuthToken(user);
@@ -73,7 +73,7 @@ public class WelcomeController {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		if(loginingUser == null) return new ResponseEntity<String>("app.User may not have been initialized", HttpStatus.BAD_REQUEST);
+		if(loginingUser == null) return new ResponseEntity<String>("User may not have been initialized", HttpStatus.BAD_REQUEST);
 		loginingUser.encryptPassword();
 		
 		User verifyUser = (User)MainDAO.read(User.class, loginingUser.getEmail());
