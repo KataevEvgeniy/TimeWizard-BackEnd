@@ -30,21 +30,20 @@ public class UserTask {
 	private Date startDate;
 	@Column(name="end_date")
 	private Date endDate;
-	private Date date;
 	
 	private Boolean completed;
 
 	@Column(name="color")
 	private String colorInHex;
 	
-	public UserTask(String title,String definition, String email, Date startDate, Date endDate, Date date) {
+	public UserTask(String title,String definition, String email, Date startDate, Date endDate) {
 		
 		this.title = title;
 		this.definition = definition;
 		this.email = email;
 		this.startDate = startDate;
 		this.endDate = endDate;
-		this.date = date;
+
 	}
 	
 	
