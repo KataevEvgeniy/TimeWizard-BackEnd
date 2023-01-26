@@ -75,7 +75,7 @@ public class MainDAO {
     	return "success";
     }
     
-    public static String delete(Object obj) {
+    public static String delete(Object obj) throws SQLDataException {
     	EntityManager em = entityManagerFactory.createEntityManager();
     	em.getTransaction().begin();
     	em.remove(em.merge(obj));

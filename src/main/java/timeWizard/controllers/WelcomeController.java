@@ -165,6 +165,38 @@ public class WelcomeController {
 		HttpHeaders headers = new HttpHeaders();
 		return new ResponseEntity<String>("Task updated", headers, HttpStatus.CREATED);
 	}
+
+	@PostMapping(path="/deleteTask", consumes ={"application/json"})
+	public ResponseEntity<String> deleteTask(@RequestBody String taskData,@RequestHeader(name = "Authorization") String token){
+		UserTask task = new UserTask();
+		String userEmail = "";
+
+		try {
+			AuthToken decryptedToken = (new EncryptedAuthToken(token)).decrypt();
+			userEmail = decryptedToken.getUserEmail();
+		} catch (BadPaddingException e) {
+			return new ResponseEntity<String>("Token is expired", HttpStatus.BAD_REQUEST);
+		}
+		System.out.println(1);
+
+		try {
+			ObjectMapper mapper = new ObjectMapper(); //Deserialization requested JSON
+			task = mapper.readValue((new StringReader(taskData)), UserTask.class);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		task.setEmail(userEmail);
+		try {
+			MainDAO.delete(task);
+		} catch (SQLDataException e) {
+			return new ResponseEntity<String>("Task didn't delete", HttpStatus.BAD_REQUEST);
+		}
+
+		HttpHeaders headers = new HttpHeaders();
+		return new ResponseEntity<String>("Task deleted", headers, HttpStatus.CREATED);
+	}
 	
 	@GetMapping(path="/getAllTasks")
 	public ResponseEntity<String> getAllTasks(@RequestHeader(name = "Authorization") String token) {
