@@ -35,6 +35,11 @@ public class UserTask {
 
 	@Column(name="color")
 	private String colorInHex;
+
+	@Column(name="frequency")
+	private int frequency;
+	@Column(name="time_unit")
+	private String timeUnit;
 	
 	public UserTask(String title,String definition, String email, Date startDate, Date endDate) {
 		
