@@ -21,8 +21,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import timeWizard.TableTask;
 import timeWizard.User;
-import timeWizard.UserTask;
+import timeWizard.CalendarTask;
 import timeWizard.DAOLayer.MainDAO;
 import timeWizard.tokens.AuthToken;
 import timeWizard.tokens.EncryptedAuthToken;
@@ -102,9 +103,9 @@ public class WelcomeController {
 		return new ResponseEntity<String>("Token is false", HttpStatus.BAD_REQUEST);
 	}
 	
-	@PostMapping(path="/saveTask", consumes ={"application/json"})
-	public ResponseEntity<String> saveTask(@RequestBody String taskData,@RequestHeader(name = "Authorization") String token) {
-		UserTask task = new UserTask();
+	@PostMapping(path="/saveCalendarTask", consumes ={"application/json"})
+	public ResponseEntity<String> saveCalendarTask(@RequestBody String taskData, @RequestHeader(name = "Authorization") String token) {
+		CalendarTask task = new CalendarTask();
 		String userEmail = "";
 		
 		try { 
@@ -117,7 +118,7 @@ public class WelcomeController {
 		
 		try {
 			ObjectMapper mapper = new ObjectMapper(); //Deserialization requested JSON
-			task = mapper.readValue((new StringReader(taskData)), UserTask.class);
+			task = mapper.readValue((new StringReader(taskData)), CalendarTask.class);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -136,7 +137,7 @@ public class WelcomeController {
 	
 	@PostMapping(path="/updateTask", consumes ={"application/json"})
 	public ResponseEntity<String> updateTask(@RequestBody String taskData,@RequestHeader(name = "Authorization") String token) {
-		UserTask task = new UserTask();
+		CalendarTask task = new CalendarTask();
 		String userEmail = "";
 		
 		try { 
@@ -149,7 +150,7 @@ public class WelcomeController {
 		
 		try {
 			ObjectMapper mapper = new ObjectMapper(); //Deserialization requested JSON
-			task = mapper.readValue((new StringReader(taskData)), UserTask.class);
+			task = mapper.readValue((new StringReader(taskData)), CalendarTask.class);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -168,7 +169,7 @@ public class WelcomeController {
 
 	@PostMapping(path="/deleteTask", consumes ={"application/json"})
 	public ResponseEntity<String> deleteTask(@RequestBody String taskData,@RequestHeader(name = "Authorization") String token){
-		UserTask task = new UserTask();
+		CalendarTask task = new CalendarTask();
 		String userEmail = "";
 
 		try {
@@ -181,7 +182,7 @@ public class WelcomeController {
 
 		try {
 			ObjectMapper mapper = new ObjectMapper(); //Deserialization requested JSON
-			task = mapper.readValue((new StringReader(taskData)), UserTask.class);
+			task = mapper.readValue((new StringReader(taskData)), CalendarTask.class);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -198,8 +199,8 @@ public class WelcomeController {
 		return new ResponseEntity<String>("Task deleted", headers, HttpStatus.CREATED);
 	}
 	
-	@GetMapping(path="/getAllTasks")
-	public ResponseEntity<String> getAllTasks(@RequestHeader(name = "Authorization") String token) {
+	@GetMapping(path="/getAllCallendarTasks")
+	public ResponseEntity<String> getAllCalendarTasks(@RequestHeader(name = "Authorization") String token) {
 		EncryptedAuthToken encryptedToken = new EncryptedAuthToken(token);
 		String email;
 		String JSONList = "";
@@ -214,12 +215,73 @@ public class WelcomeController {
 		}
 		
 		@SuppressWarnings (value="unchecked")
-		ArrayList<UserTask> list = (ArrayList<UserTask>) MainDAO.readAll(UserTask.class,email);
+		ArrayList<CalendarTask> list = (ArrayList<CalendarTask>) MainDAO.readAll(CalendarTask.class,email);
 		
 		try {
 			ObjectMapper mapper = new ObjectMapper();
 			JSONList = mapper.writeValueAsString(list);
 			
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return new ResponseEntity<String>(JSONList,HttpStatus.ACCEPTED);
+	}
+
+	@PostMapping(path="/saveTableTask", consumes ={"application/json"})
+	public ResponseEntity<String> saveTableTask(@RequestBody String taskData, @RequestHeader(name = "Authorization") String token) {
+		TableTask task = new TableTask();
+		String userEmail = "";
+
+		try {
+			AuthToken decryptedToken = (new EncryptedAuthToken(token)).decrypt();
+			userEmail = decryptedToken.getUserEmail();
+		} catch (BadPaddingException e) {
+			return new ResponseEntity<String>("Token is expired", HttpStatus.BAD_REQUEST);
+		}
+
+
+		try {
+			ObjectMapper mapper = new ObjectMapper(); //Deserialization requested JSON
+			task = mapper.readValue((new StringReader(taskData)), TableTask.class);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		task.setEmail(userEmail);
+		try {
+			MainDAO.create(task);
+		} catch (SQLDataException e) {
+			return new ResponseEntity<String>("Task didn't created", HttpStatus.BAD_REQUEST);
+		}
+
+		HttpHeaders headers = new HttpHeaders();
+		return new ResponseEntity<String>("Task created", headers, HttpStatus.CREATED);
+	}
+
+	@GetMapping(path="/getAllTableTasks")
+	public ResponseEntity<String> getAllTableTasks(@RequestHeader(name = "Authorization") String token) {
+		EncryptedAuthToken encryptedToken = new EncryptedAuthToken(token);
+		String email;
+		String JSONList = "";
+
+		try {
+			if(!encryptedToken.isTrue()) {
+				return new ResponseEntity<String>("Token is false", HttpStatus.BAD_REQUEST);
+			}
+			email = encryptedToken.decrypt().getUserEmail();
+		} catch (BadPaddingException e) {
+			return new ResponseEntity<String>("Token is expired", HttpStatus.BAD_REQUEST);
+		}
+
+		@SuppressWarnings (value="unchecked")
+		ArrayList<CalendarTask> list = (ArrayList<CalendarTask>) MainDAO.readAll(TableTask.class,email);
+
+		try {
+			ObjectMapper mapper = new ObjectMapper();
+			JSONList = mapper.writeValueAsString(list);
+
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

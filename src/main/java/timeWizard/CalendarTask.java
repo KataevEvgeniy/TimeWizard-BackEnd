@@ -14,10 +14,9 @@ import lombok.NoArgsConstructor;
 
 @Data
 @NoArgsConstructor
-
 @Entity
-@Table(name="user_tasks")
-public class UserTask {
+@Table(name="calendar_tasks")
+public class CalendarTask {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long id;
@@ -41,7 +40,7 @@ public class UserTask {
 	@Column(name="time_unit")
 	private String timeUnit;
 	
-	public UserTask(String title,String definition, String email, Date startDate, Date endDate) {
+	public CalendarTask(String title, String definition, String email, Date startDate, Date endDate) {
 		
 		this.title = title;
 		this.definition = definition;
