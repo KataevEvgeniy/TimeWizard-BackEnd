@@ -131,7 +131,7 @@ public class WelcomeController {
 	}
 	
 	@PostMapping(path="/updateCalendarTask", consumes ={"application/json"})
-	public ResponseEntity<String> updateTask(@RequestBody CalendarTask task,@RequestHeader(name = "Authorization") String token) {
+	public ResponseEntity<String> updateCalendarTask(@RequestBody CalendarTask task,@RequestHeader(name = "Authorization") String token) {
 		String userEmail = getUserEmail(token);
 		if(userEmail == null){
 			return new ResponseEntity<>("Token is expired", HttpStatus.BAD_REQUEST);
@@ -141,42 +141,27 @@ public class WelcomeController {
 		try {
 			MainDAO.update(task);
 		} catch (SQLDataException e) {
-			return new ResponseEntity<String>("Task didn't update", HttpStatus.BAD_REQUEST);
+			return new ResponseEntity<>("Task didn't update", HttpStatus.BAD_REQUEST);
 		}
 
-		return new ResponseEntity<String>("Task updated", HttpStatus.CREATED);
+		return new ResponseEntity<>("Task updated", HttpStatus.CREATED);
 	}
 
-	@PostMapping(path="/deleteTask", consumes ={"application/json"})
-	public ResponseEntity<String> deleteTask(@RequestBody String taskData,@RequestHeader(name = "Authorization") String token){
-		CalendarTask task = new CalendarTask();
-		String userEmail = "";
-
-		try {
-			AuthToken decryptedToken = (new EncryptedAuthToken(token)).decrypt();
-			userEmail = decryptedToken.getUserEmail();
-		} catch (BadPaddingException e) {
-			return new ResponseEntity<String>("Token is expired", HttpStatus.BAD_REQUEST);
-		}
-		System.out.println(1);
-
-		try {
-			ObjectMapper mapper = new ObjectMapper(); //Deserialization requested JSON
-			task = mapper.readValue((new StringReader(taskData)), CalendarTask.class);
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+	@PostMapping(path="/deleteCalendarTask", consumes ={"application/json"})
+	public ResponseEntity<String> deleteCalendarTask(@RequestBody CalendarTask task,@RequestHeader(name = "Authorization") String token){
+		String userEmail = getUserEmail(token);
+		if(userEmail == null){
+			return new ResponseEntity<>("Token is expired", HttpStatus.BAD_REQUEST);
 		}
 
 		task.setEmail(userEmail);
 		try {
 			MainDAO.delete(task);
 		} catch (SQLDataException e) {
-			return new ResponseEntity<String>("Task didn't delete", HttpStatus.BAD_REQUEST);
+			return new ResponseEntity<>("Task didn't delete", HttpStatus.BAD_REQUEST);
 		}
 
-		HttpHeaders headers = new HttpHeaders();
-		return new ResponseEntity<String>("Task deleted", headers, HttpStatus.CREATED);
+		return new ResponseEntity<>("Task deleted", HttpStatus.CREATED);
 	}
 	
 	@GetMapping(path="/getAllCallendarTasks")
