@@ -105,49 +105,46 @@ public class WelcomeController {
 			AuthToken decryptedToken = (new EncryptedAuthToken(token)).decrypt();
 			userEmail = decryptedToken.getUserEmail();
 		} catch (BadPaddingException e) {
-			return new ResponseEntity<String>("Token is expired", HttpStatus.BAD_REQUEST);
+			return new ResponseEntity<>("Token is expired", HttpStatus.BAD_REQUEST);
 		}
 
 		task.setEmail(userEmail);
 		try {
 			MainDAO.create(task);
 		} catch (SQLDataException e) {
-			return new ResponseEntity<String>("Task didn't created", HttpStatus.BAD_REQUEST);
+			return new ResponseEntity<>("Task didn't created", HttpStatus.BAD_REQUEST);
 		}
 
-		return new ResponseEntity<String>("Task created", HttpStatus.CREATED);
+		return new ResponseEntity<>("Task created", HttpStatus.CREATED);
+	}
+
+	private String getUserEmail(String token){
+		try {
+			EncryptedAuthToken encryptedAuthToken = new EncryptedAuthToken(token);
+			AuthToken decryptedToken = encryptedAuthToken.decrypt();
+			String userEmail = decryptedToken.getUserEmail();
+			return userEmail;
+		} catch (BadPaddingException e) {
+			return null;
+		}
+
 	}
 	
-	@PostMapping(path="/updateTask", consumes ={"application/json"})
+	@PostMapping(path="/updateCalendarTask", consumes ={"application/json"})
 	public ResponseEntity<String> updateTask(@RequestBody CalendarTask task,@RequestHeader(name = "Authorization") String token) {
-
-		String userEmail = "";
-		
-		try { 
-			AuthToken decryptedToken = (new EncryptedAuthToken(token)).decrypt();
-			userEmail = decryptedToken.getUserEmail();
-		} catch (BadPaddingException e) {
-			return new ResponseEntity<String>("Token is expired", HttpStatus.BAD_REQUEST);
+		String userEmail = getUserEmail(token);
+		if(userEmail == null){
+			return new ResponseEntity<>("Token is expired", HttpStatus.BAD_REQUEST);
 		}
-		System.out.println(1);
 
-		try {
-			ObjectMapper mapper = new ObjectMapper(); //Deserialization requested JSON
-			task = mapper.readValue((new StringReader(taskData)), CalendarTask.class);
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
 		task.setEmail(userEmail);
 		try {
 			MainDAO.update(task);
 		} catch (SQLDataException e) {
 			return new ResponseEntity<String>("Task didn't update", HttpStatus.BAD_REQUEST);
 		}
-		
-		HttpHeaders headers = new HttpHeaders();
-		return new ResponseEntity<String>("Task updated", headers, HttpStatus.CREATED);
+
+		return new ResponseEntity<String>("Task updated", HttpStatus.CREATED);
 	}
 
 	@PostMapping(path="/deleteTask", consumes ={"application/json"})
