@@ -2,21 +2,30 @@
 <project version="4">
   <component name="ArtifactsWorkspaceSettings">
     <artifacts-to-build>
-      <artifact name="TimeWizard:war" />
+      <artifact name="TimeWizard-BackEnd:war" />
+      <artifact name="TimeWizard-BackEnd:war exploded" />
     </artifacts-to-build>
   </component>
   <component name="AutoImportSettings">
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="55fd21b0-4f6f-49c2-9b1f-592855c7340b" name="Changes" comment="add &quot;color&quot; field to class &quot;UserTask&quot; and to database">
+    <list default="true" id="55fd21b0-4f6f-49c2-9b1f-592855c7340b" name="Changes" comment="add class TaskTable&#10;add methods to WelcomeController &quot;saveTableTask&quot; and &quot;getAllTableTasks&quot;">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/timeWizard/UserTask.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/timeWizard/UserTask.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/timeWizard/controllers/WelcomeController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/timeWizard/controllers/WelcomeController.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Class" />
+      </list>
+    </option>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -35,29 +44,31 @@
     <option name="selectedTabId" value="CurrentFile" />
   </component>
   <component name="ProjectId" id="2KbAC6fMVcYE2YHDSLvJ11BP0bN" />
-  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true">
+    <ConfirmationsSetting value="1" id="Add" />
+  </component>
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "WebServerToolWindowFactoryState": "false",
-    "project.structure.last.edited": "Artifacts",
-    "project.structure.proportion": "0.15",
-    "project.structure.side.proportion": "0.2",
-    "settings.editor.selected.configurable": "reference.settings.deploy.options",
-    "spring.configuration.checksum": "445c8471605dbb70b9d77f0bfee24e87"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/jackm/TimeWizard-BackEnd&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;Project&quot;,
+    &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
+    &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.pluginManager&quot;,
+    &quot;spring.configuration.checksum&quot;: &quot;1312f6b0f5cd831ddd1fd0f9b49a8114&quot;
   },
-  "keyToStringList": {
-    "DatabaseDriversLRU": [
-      "postgresql"
+  &quot;keyToStringList&quot;: {
+    &quot;DatabaseDriversLRU&quot;: [
+      &quot;postgresql&quot;
     ]
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
       <recent name="C:\Users\jackm\IdeaProjects\TimeWizard\src\main\resources" />
@@ -75,7 +86,7 @@
       <option name="OPEN_IN_BROWSER_URL" value="http://localhost:8081/taskScheduler/" />
       <option name="UPDATING_POLICY" value="restart-server" />
       <deployment>
-        <artifact name="TimeWizard:war">
+        <artifact name="TimeWizard-BackEnd:war">
           <settings>
             <option name="CONTEXT_PATH" value="/taskScheduler" />
           </settings>
@@ -156,7 +167,87 @@
         <option name="Make" enabled="true" />
         <option name="BuildArtifacts" enabled="true">
           <artifact name="TimeWizard:war" />
+          <artifact name="TimeWizard-BackEnd:war" />
+          <artifact name="TimeWizard-BackEnd:war exploded" />
         </option>
+      </method>
+    </configuration>
+    <configuration default="true" type="#com.intellij.j2ee.web.tomcat.TomcatRunConfigurationFactory" factoryName="Local" ALTERNATIVE_JRE_ENABLED="false">
+      <option name="UPDATING_POLICY" value="restart-server" />
+      <deployment />
+      <server-settings>
+        <option name="BASE_DIRECTORY_NAME" value="3522d310-b347-4b9c-b72b-e41beca8c6d6" />
+      </server-settings>
+      <predefined_log_file enabled="true" id="Tomcat" />
+      <predefined_log_file enabled="true" id="Tomcat Catalina" />
+      <predefined_log_file id="Tomcat Manager" />
+      <predefined_log_file id="Tomcat Host Manager" />
+      <predefined_log_file id="Tomcat Localhost Access" />
+      <RunnerSettings RunnerId="Debug">
+        <option name="DEBUG_PORT" value="59548" />
+      </RunnerSettings>
+      <ConfigurationWrapper VM_VAR="JAVA_OPTS" RunnerId="Cover">
+        <option name="USE_ENV_VARIABLES" value="true" />
+        <STARTUP>
+          <option name="USE_DEFAULT" value="true" />
+          <option name="SCRIPT" value="" />
+          <option name="VM_PARAMETERS" value="" />
+          <option name="PROGRAM_PARAMETERS" value="" />
+        </STARTUP>
+        <SHUTDOWN>
+          <option name="USE_DEFAULT" value="true" />
+          <option name="SCRIPT" value="" />
+          <option name="VM_PARAMETERS" value="" />
+          <option name="PROGRAM_PARAMETERS" value="" />
+        </SHUTDOWN>
+      </ConfigurationWrapper>
+      <ConfigurationWrapper VM_VAR="JAVA_OPTS" RunnerId="Debug">
+        <option name="USE_ENV_VARIABLES" value="true" />
+        <STARTUP>
+          <option name="USE_DEFAULT" value="true" />
+          <option name="SCRIPT" value="" />
+          <option name="VM_PARAMETERS" value="" />
+          <option name="PROGRAM_PARAMETERS" value="" />
+        </STARTUP>
+        <SHUTDOWN>
+          <option name="USE_DEFAULT" value="true" />
+          <option name="SCRIPT" value="" />
+          <option name="VM_PARAMETERS" value="" />
+          <option name="PROGRAM_PARAMETERS" value="" />
+        </SHUTDOWN>
+      </ConfigurationWrapper>
+      <ConfigurationWrapper VM_VAR="JAVA_OPTS" RunnerId="Profile">
+        <option name="USE_ENV_VARIABLES" value="true" />
+        <STARTUP>
+          <option name="USE_DEFAULT" value="true" />
+          <option name="SCRIPT" value="" />
+          <option name="VM_PARAMETERS" value="" />
+          <option name="PROGRAM_PARAMETERS" value="" />
+        </STARTUP>
+        <SHUTDOWN>
+          <option name="USE_DEFAULT" value="true" />
+          <option name="SCRIPT" value="" />
+          <option name="VM_PARAMETERS" value="" />
+          <option name="PROGRAM_PARAMETERS" value="" />
+        </SHUTDOWN>
+      </ConfigurationWrapper>
+      <ConfigurationWrapper VM_VAR="JAVA_OPTS" RunnerId="Run">
+        <option name="USE_ENV_VARIABLES" value="true" />
+        <STARTUP>
+          <option name="USE_DEFAULT" value="true" />
+          <option name="SCRIPT" value="" />
+          <option name="VM_PARAMETERS" value="" />
+          <option name="PROGRAM_PARAMETERS" value="" />
+        </STARTUP>
+        <SHUTDOWN>
+          <option name="USE_DEFAULT" value="true" />
+          <option name="SCRIPT" value="" />
+          <option name="VM_PARAMETERS" value="" />
+          <option name="PROGRAM_PARAMETERS" value="" />
+        </SHUTDOWN>
+      </ConfigurationWrapper>
+      <method v="2">
+        <option name="Make" enabled="true" />
       </method>
     </configuration>
     <list>
@@ -187,7 +278,25 @@
       <workItem from="1674406920567" duration="606000" />
       <workItem from="1674485912764" duration="2209000" />
       <workItem from="1674568007806" duration="2688000" />
-      <workItem from="1674656131326" duration="1632000" />
+      <workItem from="1674656131326" duration="2354000" />
+      <workItem from="1674746852253" duration="2496000" />
+      <workItem from="1674833099731" duration="813000" />
+      <workItem from="1674975751968" duration="2099000" />
+      <workItem from="1674978288387" duration="194000" />
+      <workItem from="1675437009580" duration="154000" />
+      <workItem from="1675497243570" duration="455000" />
+      <workItem from="1675497774210" duration="222000" />
+      <workItem from="1675781592066" duration="129000" />
+      <workItem from="1676209903227" duration="3906000" />
+      <workItem from="1676301038498" duration="749000" />
+      <workItem from="1676310203548" duration="320000" />
+      <workItem from="1676387943583" duration="490000" />
+      <workItem from="1676388450728" duration="4000" />
+      <workItem from="1676388486901" duration="1154000" />
+      <workItem from="1676470075260" duration="614000" />
+      <workItem from="1676561041522" duration="4554000" />
+      <workItem from="1676635993037" duration="13000" />
+      <workItem from="1676646242687" duration="3697000" />
     </task>
     <task id="LOCAL-00001" summary="init">
       <created>1674387156711</created>
@@ -217,7 +326,35 @@
       <option name="project" value="LOCAL" />
       <updated>1674581599635</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="remove field &quot;data&quot; from class &quot;UserTask&quot;">
+      <created>1674662436296</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1674662436296</updated>
+    </task>
+    <task id="LOCAL-00006" summary="add method &quot;deleteTask&quot; in Controller">
+      <created>1674753583719</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1674753583719</updated>
+    </task>
+    <task id="LOCAL-00007" summary="add field &quot;frequency&quot; and &quot;timeUnit&quot; to &quot;UserTask&quot;">
+      <created>1676221309535</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1676221309535</updated>
+    </task>
+    <task id="LOCAL-00008" summary="add class TaskTable&#10;add methods to WelcomeController &quot;saveTableTask&quot; and &quot;getAllTableTasks&quot;">
+      <created>1676569033396</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1676569033397</updated>
+    </task>
+    <option name="localTasksCounter" value="9" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -237,7 +374,11 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="init" />
     <MESSAGE value="add &quot;color&quot; field to class &quot;UserTask&quot; and to database" />
-    <option name="LAST_COMMIT_MESSAGE" value="add &quot;color&quot; field to class &quot;UserTask&quot; and to database" />
+    <MESSAGE value="remove field &quot;data&quot; from class &quot;UserTask&quot;" />
+    <MESSAGE value="add method &quot;deleteTask&quot; in Controller" />
+    <MESSAGE value="add field &quot;frequency&quot; and &quot;timeUnit&quot; to &quot;UserTask&quot;" />
+    <MESSAGE value="add class TaskTable&#10;add methods to WelcomeController &quot;saveTableTask&quot; and &quot;getAllTableTasks&quot;" />
+    <option name="LAST_COMMIT_MESSAGE" value="add class TaskTable&#10;add methods to WelcomeController &quot;saveTableTask&quot; and &quot;getAllTableTasks&quot;" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />

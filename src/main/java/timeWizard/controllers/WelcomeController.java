@@ -8,6 +8,7 @@ import java.util.*;
 import javax.crypto.BadPaddingException;
 
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -34,29 +35,37 @@ import timeWizard.tokens.EncryptedAuthToken;
 @RequestMapping(produces = "application/json")
 @CrossOrigin(origins="http://localhost:8080")
 public class WelcomeController {
+
+	public <T> T mapObject(String jsonString, Class<T> clazz) {
+		ObjectMapper mapper = new ObjectMapper();
+		try {
+			return mapper.readValue(jsonString, clazz);
+		} catch (JsonProcessingException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
 	
 	@PostMapping( path="/register", consumes ={"application/json"})
 	public ResponseEntity<String> register(@RequestBody String userRegisterData) {
-		HttpHeaders headers = new HttpHeaders();
-		User user = null;
-		try {
-			ObjectMapper mapper = new ObjectMapper(); //Deserialization request JSON
-			user = mapper.readValue((new StringReader(userRegisterData)), User.class);
-		} catch (IOException e) {e.printStackTrace();}
-		
-		if(user == null) return new ResponseEntity<String>("User may not have been initialized", HttpStatus.BAD_REQUEST);
-		
+
+		User user = mapObject(userRegisterData,User.class);
+
+		if(user == null) {
+			return new ResponseEntity<String>("User may not have been initialized", HttpStatus.BAD_REQUEST);
+		}
 		user.encryptPassword();
 
 		try {
 			MainDAO.create(user);
 		} catch (SQLDataException e) {
-			return new ResponseEntity<String>("User already registered", headers, HttpStatus.BAD_REQUEST);
+			return new ResponseEntity<String>("User already registered", HttpStatus.BAD_REQUEST);
 		}
 		
 		AuthToken token = new AuthToken(user);
 		EncryptedAuthToken encryptedToken = token.encrypt();
-		
+
+		HttpHeaders headers = new HttpHeaders();
 	    headers.add("Authorization", encryptedToken.toString());
 	    headers.add("Access-Control-Expose-Headers", "Authorization");
 		return new ResponseEntity<String>("Login is accept", headers, HttpStatus.CREATED);
