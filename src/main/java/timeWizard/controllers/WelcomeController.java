@@ -36,16 +36,6 @@ import timeWizard.tokens.EncryptedAuthToken;
 @CrossOrigin(origins="http://localhost:8080")
 public class WelcomeController {
 
-	public <T> T mapObject(String jsonString, Class<T> clazz) {
-		ObjectMapper mapper = new ObjectMapper();
-		try {
-			return mapper.readValue(jsonString, clazz);
-		} catch (JsonProcessingException e) {
-			e.printStackTrace();
-		}
-		return null;
-	}
-
 	public HttpHeaders createAuthHeaders(EncryptedAuthToken token){
 		HttpHeaders headers = new HttpHeaders();
 		headers.add("Authorization", token.toString());
@@ -54,9 +44,7 @@ public class WelcomeController {
 	}
 	
 	@PostMapping( path="/register", consumes ={"application/json"})
-	public ResponseEntity<String> register(@RequestBody String userRegisterData) {
-		User user = mapObject(userRegisterData,User.class);
-
+	public ResponseEntity<String> register(@RequestBody User user) {
 		if(user == null) {
 			return new ResponseEntity<>("User may not have been initialized", HttpStatus.BAD_REQUEST);
 		}
@@ -76,9 +64,7 @@ public class WelcomeController {
 	}
 	
 	@PostMapping(path="/login", consumes ={"application/json"})
-	public ResponseEntity<String> login(@RequestBody String userLoginData){
-		User loggingUser = mapObject(userLoginData,User.class);
-
+	public ResponseEntity<String> login(@RequestBody User loggingUser){
 		if(loggingUser == null) {
 			return new ResponseEntity<>("User may not have been initialized", HttpStatus.BAD_REQUEST);
 		}
@@ -108,42 +94,33 @@ public class WelcomeController {
 		}
 		return new ResponseEntity<>("Token is false", HttpStatus.BAD_REQUEST);
 	}
-	
+
+
+
 	@PostMapping(path="/saveCalendarTask", consumes ={"application/json"})
-	public ResponseEntity<String> saveCalendarTask(@RequestBody String taskData, @RequestHeader(name = "Authorization") String token) {
-		CalendarTask task = new CalendarTask();
+	public ResponseEntity<String> saveCalendarTask(@RequestBody CalendarTask task, @RequestHeader(name = "Authorization") String token) {
 		String userEmail = "";
-		
-		try { 
+
+		try {
 			AuthToken decryptedToken = (new EncryptedAuthToken(token)).decrypt();
 			userEmail = decryptedToken.getUserEmail();
 		} catch (BadPaddingException e) {
 			return new ResponseEntity<String>("Token is expired", HttpStatus.BAD_REQUEST);
 		}
-		System.out.println(1);
-		
-		try {
-			ObjectMapper mapper = new ObjectMapper(); //Deserialization requested JSON
-			task = mapper.readValue((new StringReader(taskData)), CalendarTask.class);
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
+
 		task.setEmail(userEmail);
 		try {
 			MainDAO.create(task);
 		} catch (SQLDataException e) {
 			return new ResponseEntity<String>("Task didn't created", HttpStatus.BAD_REQUEST);
 		}
-		
-		HttpHeaders headers = new HttpHeaders();
-		return new ResponseEntity<String>("Task created", headers, HttpStatus.CREATED);
+
+		return new ResponseEntity<String>("Task created", HttpStatus.CREATED);
 	}
 	
 	@PostMapping(path="/updateTask", consumes ={"application/json"})
-	public ResponseEntity<String> updateTask(@RequestBody String taskData,@RequestHeader(name = "Authorization") String token) {
-		CalendarTask task = new CalendarTask();
+	public ResponseEntity<String> updateTask(@RequestBody CalendarTask task,@RequestHeader(name = "Authorization") String token) {
+
 		String userEmail = "";
 		
 		try { 
@@ -153,7 +130,7 @@ public class WelcomeController {
 			return new ResponseEntity<String>("Token is expired", HttpStatus.BAD_REQUEST);
 		}
 		System.out.println(1);
-		
+
 		try {
 			ObjectMapper mapper = new ObjectMapper(); //Deserialization requested JSON
 			task = mapper.readValue((new StringReader(taskData)), CalendarTask.class);
