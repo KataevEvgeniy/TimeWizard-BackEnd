@@ -45,58 +45,55 @@ public class WelcomeController {
 		}
 		return null;
 	}
+
+	public HttpHeaders createAuthHeaders(EncryptedAuthToken token){
+		HttpHeaders headers = new HttpHeaders();
+		headers.add("Authorization", token.toString());
+		headers.add("Access-Control-Expose-Headers", "Authorization");
+		return headers;
+	}
 	
 	@PostMapping( path="/register", consumes ={"application/json"})
 	public ResponseEntity<String> register(@RequestBody String userRegisterData) {
-
 		User user = mapObject(userRegisterData,User.class);
 
 		if(user == null) {
-			return new ResponseEntity<String>("User may not have been initialized", HttpStatus.BAD_REQUEST);
+			return new ResponseEntity<>("User may not have been initialized", HttpStatus.BAD_REQUEST);
 		}
 		user.encryptPassword();
 
 		try {
 			MainDAO.create(user);
 		} catch (SQLDataException e) {
-			return new ResponseEntity<String>("User already registered", HttpStatus.BAD_REQUEST);
+			return new ResponseEntity<>("User already registered", HttpStatus.BAD_REQUEST);
 		}
 		
 		AuthToken token = new AuthToken(user);
 		EncryptedAuthToken encryptedToken = token.encrypt();
+		HttpHeaders headers = createAuthHeaders(encryptedToken);
 
-		HttpHeaders headers = new HttpHeaders();
-	    headers.add("Authorization", encryptedToken.toString());
-	    headers.add("Access-Control-Expose-Headers", "Authorization");
-		return new ResponseEntity<String>("Login is accept", headers, HttpStatus.CREATED);
+		return new ResponseEntity<>("Login is accept", headers, HttpStatus.CREATED);
 	}
 	
 	@PostMapping(path="/login", consumes ={"application/json"})
 	public ResponseEntity<String> login(@RequestBody String userLoginData){
-		HttpHeaders headers = new HttpHeaders();
-		User loginingUser = null;
-		
-		try {
-			ObjectMapper mapper = new ObjectMapper(); //Deserialization requested JSON
-			loginingUser = mapper.readValue((new StringReader(userLoginData)), User.class);
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		User loggingUser = mapObject(userLoginData,User.class);
+
+		if(loggingUser == null) {
+			return new ResponseEntity<>("User may not have been initialized", HttpStatus.BAD_REQUEST);
 		}
-		if(loginingUser == null) return new ResponseEntity<String>("User may not have been initialized", HttpStatus.BAD_REQUEST);
-		loginingUser.encryptPassword();
+		loggingUser.encryptPassword();
 		
-		User verifyUser = (User)MainDAO.read(User.class, loginingUser.getEmail());
-		if(!loginingUser.equals(verifyUser)) {
-			return new ResponseEntity<String>("Login failed", headers, HttpStatus.BAD_REQUEST);
+		User existingUser = (User)MainDAO.read(User.class, loggingUser.getEmail());
+		if(!loggingUser.equals(existingUser)) {
+			return new ResponseEntity<String>("Login failed", HttpStatus.BAD_REQUEST);
 		}
 		
-		AuthToken token = new AuthToken(loginingUser);
+		AuthToken token = new AuthToken(loggingUser);
 		EncryptedAuthToken encryptedToken = token.encrypt();
-		
-	    headers.add("Authorization", encryptedToken.getEncryptedStringToken());
-	    headers.add("Access-Control-Expose-Headers", "Authorization");
-		return new ResponseEntity<String>("Login is accept", headers, HttpStatus.ACCEPTED);
+		HttpHeaders headers = createAuthHeaders(encryptedToken);
+
+		return new ResponseEntity<>("Login is accept", headers, HttpStatus.ACCEPTED);
 	}
 	
 	@GetMapping(path="/checkToken")
@@ -104,12 +101,12 @@ public class WelcomeController {
 		EncryptedAuthToken encryptedToken = new EncryptedAuthToken(token);
 		try {
 			if(encryptedToken.isTrue()) {
-				return new ResponseEntity<String>("Token is true", HttpStatus.ACCEPTED);
+				return new ResponseEntity<>("Token is true", HttpStatus.ACCEPTED);
 			}
 		} catch (BadPaddingException e) {
-			return new ResponseEntity<String>("Token is expired", HttpStatus.BAD_REQUEST);
+			return new ResponseEntity<>("Token is expired", HttpStatus.BAD_REQUEST);
 		}
-		return new ResponseEntity<String>("Token is false", HttpStatus.BAD_REQUEST);
+		return new ResponseEntity<>("Token is false", HttpStatus.BAD_REQUEST);
 	}
 	
 	@PostMapping(path="/saveCalendarTask", consumes ={"application/json"})
