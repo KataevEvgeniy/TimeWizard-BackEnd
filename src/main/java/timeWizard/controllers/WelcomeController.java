@@ -122,8 +122,7 @@ public class WelcomeController {
 		try {
 			EncryptedAuthToken encryptedAuthToken = new EncryptedAuthToken(token);
 			AuthToken decryptedToken = encryptedAuthToken.decrypt();
-			String userEmail = decryptedToken.getUserEmail();
-			return userEmail;
+			return decryptedToken.getUserEmail();
 		} catch (BadPaddingException e) {
 			return null;
 		}
@@ -185,35 +184,21 @@ public class WelcomeController {
 	}
 
 	@PostMapping(path="/saveTableTask", consumes ={"application/json"})
-	public ResponseEntity<String> saveTableTask(@RequestBody String taskData, @RequestHeader(name = "Authorization") String token) {
-		TableTask task = new TableTask();
-		String userEmail = "";
-
-		try {
-			AuthToken decryptedToken = (new EncryptedAuthToken(token)).decrypt();
-			userEmail = decryptedToken.getUserEmail();
-		} catch (BadPaddingException e) {
-			return new ResponseEntity<String>("Token is expired", HttpStatus.BAD_REQUEST);
+	public ResponseEntity<String> saveTableTask(@RequestBody TableTask task, @RequestHeader(name = "Authorization") String token) {
+		String userEmail = getUserEmail(token);
+		if(userEmail == null){
+			return new ResponseEntity<>("Token is expired", HttpStatus.BAD_REQUEST);
 		}
-
-
-		try {
-			ObjectMapper mapper = new ObjectMapper(); //Deserialization requested JSON
-			task = mapper.readValue((new StringReader(taskData)), TableTask.class);
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-
 		task.setEmail(userEmail);
+
 		try {
 			MainDAO.create(task);
 		} catch (SQLDataException e) {
-			return new ResponseEntity<String>("Task didn't created", HttpStatus.BAD_REQUEST);
+			return new ResponseEntity<>("Task didn't created", HttpStatus.BAD_REQUEST);
 		}
 
 		HttpHeaders headers = new HttpHeaders();
-		return new ResponseEntity<String>("Task created", headers, HttpStatus.CREATED);
+		return new ResponseEntity<>("Task created", headers, HttpStatus.CREATED);
 	}
 
 	@GetMapping(path="/getAllTableTasks")
