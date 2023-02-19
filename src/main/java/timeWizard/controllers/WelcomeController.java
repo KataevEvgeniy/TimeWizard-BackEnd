@@ -165,10 +165,9 @@ public class WelcomeController {
 	}
 	
 	@GetMapping(path="/getAllCallendarTasks")
-	public ResponseEntity<String> getAllCalendarTasks(@RequestHeader(name = "Authorization") String token) {
+	public ResponseEntity<?> getAllCalendarTasks(@RequestHeader(name = "Authorization") String token) {
 		EncryptedAuthToken encryptedToken = new EncryptedAuthToken(token);
 		String email;
-		String JSONList = "";
 		
 		try {
 			if(!encryptedToken.isTrue()) {
@@ -181,15 +180,8 @@ public class WelcomeController {
 		
 		@SuppressWarnings (value="unchecked")
 		ArrayList<CalendarTask> list = (ArrayList<CalendarTask>) MainDAO.readAll(CalendarTask.class,email);
-		
-		try {
-			ObjectMapper mapper = new ObjectMapper();
-			JSONList = mapper.writeValueAsString(list);
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		return new ResponseEntity<>(JSONList,HttpStatus.ACCEPTED);
+
+		return new ResponseEntity<>(list,HttpStatus.ACCEPTED);
 	}
 
 	@PostMapping(path="/saveTableTask", consumes ={"application/json"})
