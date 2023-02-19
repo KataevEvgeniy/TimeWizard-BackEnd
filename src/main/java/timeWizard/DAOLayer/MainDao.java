@@ -8,12 +8,10 @@ import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 
 
-public class MainDAO {
-	public static final EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("persistence");//name use from persistence.xml
-	
-	public static int num = 0;
+public class MainDao implements Dao{
+	public final EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("persistence");//name use from persistence.xml
     
-    public static String create(Object obj) throws SQLDataException{
+    public String create(Object obj) throws SQLDataException{
     	EntityManager em = entityManagerFactory.createEntityManager();
     	em.getTransaction().begin();
     	em.persist(obj);
@@ -26,21 +24,21 @@ public class MainDAO {
     	return "success";
     }
     
-    public static Object read(Class<?> entityClass, String id) {
+    public Object read(Class<?> entityClass, String id) {
     	EntityManager em = entityManagerFactory.createEntityManager();
     	Object obj = em.find(entityClass, id);
     	em.close();
     	return obj;
     }
     
-    public static Object read(Class<?> entityClass, long id) {
+    public Object read(Class<?> entityClass, long id) {
     	EntityManager em = entityManagerFactory.createEntityManager();
     	Object obj = em.find(entityClass, id);
     	em.close();
     	return obj;
     }
     
-    public static long getMax(Class<?> cl, String row) {
+    public long getMax(Class<?> cl, String row) {
     	EntityManager em = entityManagerFactory.createEntityManager();
     	long max;
     	try {
@@ -52,21 +50,21 @@ public class MainDAO {
     	return max;
     }
     
-    public static List<?> readAll(Class<?> cl, String email){
+    public List<?> readAll(Class<?> cl, String email){
     	EntityManager em = entityManagerFactory.createEntityManager();
     	List<?> list = em.createQuery("SELECT e FROM " + cl.getName() + " e where e.email = '" + email +"'",cl).getResultList();
     	em.close();
     	return list;
     }
     
-    public static List<?> readAll(Class<?> cl) {
+    public List<?> readAll(Class<?> cl) {
     	EntityManager em = entityManagerFactory.createEntityManager();
     	List<?> list = em.createQuery("SELECT e FROM " + cl.getName() + " e",cl).getResultList();
     	em.close();
     	return list;
     }
     
-    public static String update(Object obj) throws SQLDataException{
+    public String update(Object obj) throws SQLDataException{
     	EntityManager em = entityManagerFactory.createEntityManager();
     	em.getTransaction().begin();
     	em.merge(obj);
@@ -75,7 +73,7 @@ public class MainDAO {
     	return "success";
     }
     
-    public static String delete(Object obj) throws SQLDataException {
+    public String delete(Object obj) throws SQLDataException {
     	EntityManager em = entityManagerFactory.createEntityManager();
     	em.getTransaction().begin();
     	em.remove(em.merge(obj));

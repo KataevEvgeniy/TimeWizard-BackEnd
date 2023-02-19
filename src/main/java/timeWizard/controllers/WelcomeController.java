@@ -1,14 +1,12 @@
 package timeWizard.controllers;
 
-import java.io.IOException;
-import java.io.StringReader;
 import java.sql.SQLDataException;
 import java.util.*;
 
 import javax.crypto.BadPaddingException;
 
 
-import com.fasterxml.jackson.core.JsonProcessingException;
+
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,12 +18,11 @@ import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 
 import timeWizard.TableTask;
 import timeWizard.User;
 import timeWizard.CalendarTask;
-import timeWizard.DAOLayer.MainDAO;
+import timeWizard.DAOLayer.MainDao;
 import timeWizard.tokens.AuthToken;
 import timeWizard.tokens.EncryptedAuthToken;
 
@@ -36,6 +33,8 @@ import timeWizard.tokens.EncryptedAuthToken;
 @CrossOrigin(origins="http://localhost:8080")
 public class WelcomeController {
 
+
+	MainDao dao = new MainDao();
 	public HttpHeaders createAuthHeaders(EncryptedAuthToken token){
 		HttpHeaders headers = new HttpHeaders();
 		headers.add("Authorization", token.toString());
@@ -51,7 +50,7 @@ public class WelcomeController {
 		user.encryptPassword();
 
 		try {
-			MainDAO.create(user);
+			dao.create(user);
 		} catch (SQLDataException e) {
 			return new ResponseEntity<>("User already registered", HttpStatus.BAD_REQUEST);
 		}
@@ -70,9 +69,9 @@ public class WelcomeController {
 		}
 		loggingUser.encryptPassword();
 		
-		User existingUser = (User)MainDAO.read(User.class, loggingUser.getEmail());
+		User existingUser = (User)dao.read(User.class, loggingUser.getEmail());
 		if(!loggingUser.equals(existingUser)) {
-			return new ResponseEntity<String>("Login failed", HttpStatus.BAD_REQUEST);
+			return new ResponseEntity<>("Login failed", HttpStatus.BAD_REQUEST);
 		}
 		
 		AuthToken token = new AuthToken(loggingUser);
@@ -99,34 +98,19 @@ public class WelcomeController {
 
 	@PostMapping(path="/saveCalendarTask", consumes ={"application/json"})
 	public ResponseEntity<String> saveCalendarTask(@RequestBody CalendarTask task, @RequestHeader(name = "Authorization") String token) {
-		String userEmail = "";
-
-		try {
-			AuthToken decryptedToken = (new EncryptedAuthToken(token)).decrypt();
-			userEmail = decryptedToken.getUserEmail();
-		} catch (BadPaddingException e) {
+		String userEmail = getUserEmail(token);
+		if(userEmail == null){
 			return new ResponseEntity<>("Token is expired", HttpStatus.BAD_REQUEST);
 		}
 
 		task.setEmail(userEmail);
 		try {
-			MainDAO.create(task);
+			dao.create(task);
 		} catch (SQLDataException e) {
 			return new ResponseEntity<>("Task didn't created", HttpStatus.BAD_REQUEST);
 		}
 
 		return new ResponseEntity<>("Task created", HttpStatus.CREATED);
-	}
-
-	private String getUserEmail(String token){
-		try {
-			EncryptedAuthToken encryptedAuthToken = new EncryptedAuthToken(token);
-			AuthToken decryptedToken = encryptedAuthToken.decrypt();
-			return decryptedToken.getUserEmail();
-		} catch (BadPaddingException e) {
-			return null;
-		}
-
 	}
 	
 	@PostMapping(path="/updateCalendarTask", consumes ={"application/json"})
@@ -138,7 +122,7 @@ public class WelcomeController {
 
 		task.setEmail(userEmail);
 		try {
-			MainDAO.update(task);
+			dao.update(task);
 		} catch (SQLDataException e) {
 			return new ResponseEntity<>("Task didn't update", HttpStatus.BAD_REQUEST);
 		}
@@ -155,32 +139,12 @@ public class WelcomeController {
 
 		task.setEmail(userEmail);
 		try {
-			MainDAO.delete(task);
+			dao.delete(task);
 		} catch (SQLDataException e) {
 			return new ResponseEntity<>("Task didn't delete", HttpStatus.BAD_REQUEST);
 		}
 
 		return new ResponseEntity<>("Task deleted", HttpStatus.CREATED);
-	}
-	
-	@GetMapping(path="/getAllCallendarTasks")
-	public ResponseEntity<?> getAllCalendarTasks(@RequestHeader(name = "Authorization") String token) {
-		EncryptedAuthToken encryptedToken = new EncryptedAuthToken(token);
-		String email;
-		
-		try {
-			if(!encryptedToken.isTrue()) {
-				return new ResponseEntity<>("Token is false", HttpStatus.BAD_REQUEST);
-			}
-			email = encryptedToken.decrypt().getUserEmail();
-		} catch (BadPaddingException e) {
-			return new ResponseEntity<>("Token is expired", HttpStatus.BAD_REQUEST);
-		}
-		
-		@SuppressWarnings (value="unchecked")
-		ArrayList<CalendarTask> list = (ArrayList<CalendarTask>) MainDAO.readAll(CalendarTask.class,email);
-
-		return new ResponseEntity<>(list,HttpStatus.ACCEPTED);
 	}
 
 	@PostMapping(path="/saveTableTask", consumes ={"application/json"})
@@ -192,13 +156,43 @@ public class WelcomeController {
 		task.setEmail(userEmail);
 
 		try {
-			MainDAO.create(task);
+			dao.create(task);
 		} catch (SQLDataException e) {
 			return new ResponseEntity<>("Task didn't created", HttpStatus.BAD_REQUEST);
 		}
 
 		HttpHeaders headers = new HttpHeaders();
 		return new ResponseEntity<>("Task created", headers, HttpStatus.CREATED);
+	}
+
+	private String getUserEmail(String token){
+		try {
+			EncryptedAuthToken encryptedAuthToken = new EncryptedAuthToken(token);
+			AuthToken decryptedToken = encryptedAuthToken.decrypt();
+			return decryptedToken.getUserEmail();
+		} catch (BadPaddingException e) {
+			return null;
+		}
+	}
+
+	@GetMapping(path="/getAllCallendarTasks")
+	public ResponseEntity<?> getAllCalendarTasks(@RequestHeader(name = "Authorization") String token) {
+		EncryptedAuthToken encryptedToken = new EncryptedAuthToken(token);
+		String email;
+
+		try {
+			if(!encryptedToken.isTrue()) {
+				return new ResponseEntity<>("Token is false", HttpStatus.BAD_REQUEST);
+			}
+			email = encryptedToken.decrypt().getUserEmail();
+		} catch (BadPaddingException e) {
+			return new ResponseEntity<>("Token is expired", HttpStatus.BAD_REQUEST);
+		}
+
+		@SuppressWarnings (value="unchecked")
+		ArrayList<CalendarTask> list = (ArrayList<CalendarTask>) dao.readAll(CalendarTask.class,email);
+
+		return new ResponseEntity<>(list,HttpStatus.ACCEPTED);
 	}
 
 	@GetMapping(path="/getAllTableTasks")
@@ -216,7 +210,7 @@ public class WelcomeController {
 		}
 
 		@SuppressWarnings (value="unchecked")
-		ArrayList<CalendarTask> tableTasks = (ArrayList<CalendarTask>) MainDAO.readAll(TableTask.class,email);
+		ArrayList<CalendarTask> tableTasks = (ArrayList<CalendarTask>) dao.readAll(TableTask.class,email);
 
 		return new ResponseEntity<>(tableTasks,HttpStatus.ACCEPTED);
 	}
