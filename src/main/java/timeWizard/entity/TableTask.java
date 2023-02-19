@@ -1,4 +1,4 @@
-package timeWizard;
+package timeWizard.entity;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;

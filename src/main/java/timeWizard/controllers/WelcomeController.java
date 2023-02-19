@@ -19,9 +19,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 
-import timeWizard.TableTask;
-import timeWizard.User;
-import timeWizard.CalendarTask;
+import timeWizard.entity.TableTask;
+import timeWizard.entity.User;
+import timeWizard.entity.CalendarTask;
 import timeWizard.DAOLayer.MainDao;
 import timeWizard.tokens.AuthToken;
 import timeWizard.tokens.EncryptedAuthToken;

@@ -15,11 +15,7 @@ public class MainDao implements Dao{
     	EntityManager em = entityManagerFactory.createEntityManager();
     	em.getTransaction().begin();
     	em.persist(obj);
-    	try {
     	em.getTransaction().commit();
-    	} catch(Exception e) {
-    		throw new SQLDataException(obj.getClass() + " already exists in the database");
-    	}
     	em.close();
     	return "success";
     }

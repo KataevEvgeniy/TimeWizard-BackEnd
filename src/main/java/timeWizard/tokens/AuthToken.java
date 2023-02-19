@@ -13,7 +13,7 @@ import javax.crypto.NoSuchPaddingException;
 import javax.xml.bind.DatatypeConverter;
 
 import lombok.Getter;
-import timeWizard.User;
+import timeWizard.entity.User;
 
 @Getter
 public class AuthToken {
