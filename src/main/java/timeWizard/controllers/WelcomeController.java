@@ -172,11 +172,11 @@ public class WelcomeController {
 		
 		try {
 			if(!encryptedToken.isTrue()) {
-				return new ResponseEntity<String>("Token is false", HttpStatus.BAD_REQUEST);
+				return new ResponseEntity<>("Token is false", HttpStatus.BAD_REQUEST);
 			}
 			email = encryptedToken.decrypt().getUserEmail();
 		} catch (BadPaddingException e) {
-			return new ResponseEntity<String>("Token is expired", HttpStatus.BAD_REQUEST);
+			return new ResponseEntity<>("Token is expired", HttpStatus.BAD_REQUEST);
 		}
 		
 		@SuppressWarnings (value="unchecked")
@@ -185,12 +185,11 @@ public class WelcomeController {
 		try {
 			ObjectMapper mapper = new ObjectMapper();
 			JSONList = mapper.writeValueAsString(list);
-			
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		return new ResponseEntity<String>(JSONList,HttpStatus.ACCEPTED);
+		return new ResponseEntity<>(JSONList,HttpStatus.ACCEPTED);
 	}
 
 	@PostMapping(path="/saveTableTask", consumes ={"application/json"})
@@ -226,31 +225,22 @@ public class WelcomeController {
 	}
 
 	@GetMapping(path="/getAllTableTasks")
-	public ResponseEntity<String> getAllTableTasks(@RequestHeader(name = "Authorization") String token) {
+	public ResponseEntity<?> getAllTableTasks(@RequestHeader(name = "Authorization") String token) {
 		EncryptedAuthToken encryptedToken = new EncryptedAuthToken(token);
 		String email;
-		String JSONList = "";
 
 		try {
 			if(!encryptedToken.isTrue()) {
-				return new ResponseEntity<String>("Token is false", HttpStatus.BAD_REQUEST);
+				return new ResponseEntity<>("Token is false", HttpStatus.BAD_REQUEST);
 			}
 			email = encryptedToken.decrypt().getUserEmail();
 		} catch (BadPaddingException e) {
-			return new ResponseEntity<String>("Token is expired", HttpStatus.BAD_REQUEST);
+			return new ResponseEntity<>("Token is expired", HttpStatus.BAD_REQUEST);
 		}
 
 		@SuppressWarnings (value="unchecked")
-		ArrayList<CalendarTask> list = (ArrayList<CalendarTask>) MainDAO.readAll(TableTask.class,email);
+		ArrayList<CalendarTask> tableTasks = (ArrayList<CalendarTask>) MainDAO.readAll(TableTask.class,email);
 
-		try {
-			ObjectMapper mapper = new ObjectMapper();
-			JSONList = mapper.writeValueAsString(list);
-
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		return new ResponseEntity<String>(JSONList,HttpStatus.ACCEPTED);
+		return new ResponseEntity<>(tableTasks,HttpStatus.ACCEPTED);
 	}
 }
