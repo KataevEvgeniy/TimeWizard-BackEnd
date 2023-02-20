@@ -23,7 +23,7 @@ public class AuthToken {
 	
 	public AuthToken(User user){
 		this.userEmail = user.getEmail();
-		this.key = DatatypeConverter.printHexBinary(AutoUpdatingKey.getKey().getEncoded());
+		this.key = DatatypeConverter.printHexBinary(AutoUpdatingKey.getInstance().getKey().getEncoded());
 		this.token = this.key + " " + this.userEmail;
 	}
 	
@@ -38,7 +38,7 @@ public class AuthToken {
 		byte[] encryptedToken = new byte[0];
 		try {
 			Cipher cipher = Cipher.getInstance("AES/ECB/PKCS5Padding");
-			cipher.init(Cipher.ENCRYPT_MODE, AutoUpdatingKey.getKey());
+			cipher.init(Cipher.ENCRYPT_MODE, AutoUpdatingKey.getInstance().getKey());
 			encryptedToken = cipher.doFinal(token.getBytes("UTF-8"));
 		} catch (NoSuchAlgorithmException | NoSuchPaddingException | InvalidKeyException | IllegalBlockSizeException | BadPaddingException | UnsupportedEncodingException e) {
 			// TODO Auto-generated catch block

@@ -8,34 +8,47 @@ import java.util.GregorianCalendar;
 import javax.crypto.KeyGenerator;
 
 public class AutoUpdatingKey {
-	static private Key key;
-	static private Calendar tokenUpdateDate = new GregorianCalendar();
+
+
+	static private final AutoUpdatingKey instance = new AutoUpdatingKey();
+	private Key key;
+	private Calendar nextKeyUpdate = new GregorianCalendar();
+
+	private int daysAhead = 7;
+
+	private AutoUpdatingKey(){}
 	
-	static {
-		tokenUpdateDate.set(Calendar.HOUR, 0);
-		tokenUpdateDate.set(Calendar.MINUTE, 0);
-		tokenUpdateDate.set(Calendar.SECOND, 0);
-		tokenUpdateDate.set(Calendar.MILLISECOND, 0);
-		tokenUpdateDate.add(Calendar.DAY_OF_YEAR, 1);
-		
+	{
+		nextKeyUpdate.set(Calendar.HOUR, 0);
+		nextKeyUpdate.set(Calendar.MINUTE, 0);
+		nextKeyUpdate.set(Calendar.SECOND, 0);
+		nextKeyUpdate.set(Calendar.MILLISECOND, 0);
+		nextKeyUpdate.add(Calendar.DAY_OF_YEAR, daysAhead);
+
 		try {
-			KeyGenerator keyGenerator = KeyGenerator.getInstance("AES");
-			keyGenerator.init(256);
-		    key = keyGenerator.generateKey();
+			key = generateKey();
 		} catch (NoSuchAlgorithmException e) {}
 	}
 	
-	public static Key getKey() {
-		if ((new GregorianCalendar()).before(tokenUpdateDate)) 
+	public Key getKey() {
+		if ((new GregorianCalendar()).before(nextKeyUpdate)) {
 			return key;
-		
-		tokenUpdateDate.add(Calendar.DAY_OF_YEAR, 1);
+		}
+		nextKeyUpdate.add(Calendar.DAY_OF_YEAR, daysAhead);
 		try {
-			KeyGenerator keyGenerator = KeyGenerator.getInstance("AES");
-			keyGenerator.init(256);
-		    key = keyGenerator.generateKey();
+		    key = generateKey();
 		} catch (NoSuchAlgorithmException e) {}
 		return key;
 	}
-	
+
+	private Key generateKey() throws NoSuchAlgorithmException{
+		KeyGenerator keyGenerator = KeyGenerator.getInstance("AES");
+		keyGenerator.init(256);
+		key = keyGenerator.generateKey();
+		return key;
+	}
+
+	public static AutoUpdatingKey getInstance(){
+		return instance;
+	}
 }

@@ -22,7 +22,7 @@ public class EncryptedAuthToken {
 		AuthToken token = decrypt();
 		if(token == null)
 			throw new BadPaddingException();
-		if(token.getKey().equals(DatatypeConverter.printHexBinary(AutoUpdatingKey.getKey().getEncoded())))
+		if(token.getKey().equals(DatatypeConverter.printHexBinary(AutoUpdatingKey.getInstance().getKey().getEncoded())))
 			return true;
 		
 		return false;
@@ -32,7 +32,7 @@ public class EncryptedAuthToken {
 		byte[] decryptedToken = new byte[0];
 		try {
 			Cipher cipher = Cipher.getInstance("AES/ECB/PKCS5Padding");
-			cipher.init(Cipher.DECRYPT_MODE, AutoUpdatingKey.getKey());
+			cipher.init(Cipher.DECRYPT_MODE, AutoUpdatingKey.getInstance().getKey());
 			decryptedToken = cipher.doFinal(DatatypeConverter.parseHexBinary(this.encryptedStringToken));
 			return new AuthToken(new String(decryptedToken,"UTF-8"));
 		} catch (NoSuchAlgorithmException | NoSuchPaddingException | InvalidKeyException | IllegalBlockSizeException | UnsupportedEncodingException e) {
