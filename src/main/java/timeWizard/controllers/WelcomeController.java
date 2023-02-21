@@ -165,6 +165,24 @@ public class WelcomeController {
 		return new ResponseEntity<>("Task created", headers, HttpStatus.CREATED);
 	}
 
+	@PostMapping(path="/updateTableTask", consumes ={"application/json"})
+	public ResponseEntity<String> updateTableTask(@RequestBody TableTask task, @RequestHeader(name = "Authorization") String token) {
+		String userEmail = getUserEmail(token);
+		if(userEmail == null){
+			return new ResponseEntity<>("Token is expired", HttpStatus.BAD_REQUEST);
+		}
+		task.setEmail(userEmail);
+
+		try {
+			dao.update(task);
+		} catch (SQLDataException e) {
+			return new ResponseEntity<>("Task didn't created", HttpStatus.BAD_REQUEST);
+		}
+
+		HttpHeaders headers = new HttpHeaders();
+		return new ResponseEntity<>("Task updated", headers, HttpStatus.CREATED);
+	}
+
 	private String getUserEmail(String token){
 		try {
 			EncryptedAuthToken encryptedAuthToken = new EncryptedAuthToken(token);
