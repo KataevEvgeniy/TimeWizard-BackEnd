@@ -158,7 +158,7 @@ public class WelcomeController {
 		try {
 			dao.create(task);
 		} catch (SQLDataException e) {
-			return new ResponseEntity<>("Task didn't created", HttpStatus.BAD_REQUEST);
+			return new ResponseEntity<>("Task didn't create", HttpStatus.BAD_REQUEST);
 		}
 
 		HttpHeaders headers = new HttpHeaders();
@@ -176,11 +176,29 @@ public class WelcomeController {
 		try {
 			dao.update(task);
 		} catch (SQLDataException e) {
-			return new ResponseEntity<>("Task didn't created", HttpStatus.BAD_REQUEST);
+			return new ResponseEntity<>("Task didn't update", HttpStatus.BAD_REQUEST);
 		}
 
 		HttpHeaders headers = new HttpHeaders();
 		return new ResponseEntity<>("Task updated", headers, HttpStatus.CREATED);
+	}
+
+	@PostMapping(path="/deleteTableTask", consumes ={"application/json"})
+	public ResponseEntity<String> deleteTableTask(@RequestBody TableTask task, @RequestHeader(name = "Authorization") String token) {
+		String userEmail = getUserEmail(token);
+		if(userEmail == null){
+			return new ResponseEntity<>("Token is expired", HttpStatus.BAD_REQUEST);
+		}
+		task.setEmail(userEmail);
+
+		try {
+			dao.delete(task);
+		} catch (SQLDataException e) {
+			return new ResponseEntity<>("Task didn't delete", HttpStatus.BAD_REQUEST);
+		}
+
+		HttpHeaders headers = new HttpHeaders();
+		return new ResponseEntity<>("Task deleted", headers, HttpStatus.CREATED);
 	}
 
 	private String getUserEmail(String token){
