@@ -1,5 +1,7 @@
 package timeWizard.DAOLayer;
 
+import timeWizard.entity.TableColumn;
+
 import java.sql.SQLDataException;
 import java.util.List;
 
@@ -52,6 +54,13 @@ public class MainDao implements Dao{
     	em.close();
     	return list;
     }
+
+	public List<?> readAll(Class<?> cl, TableColumn column){
+		EntityManager em = entityManagerFactory.createEntityManager();
+		List<?> list = em.createQuery("SELECT e FROM " + cl.getName() + " e where e.tableColumn.id = '" + column.getId() +"'",cl).getResultList();
+		em.close();
+		return list;
+	}
     
     public List<?> readAll(Class<?> cl) {
     	EntityManager em = entityManagerFactory.createEntityManager();
