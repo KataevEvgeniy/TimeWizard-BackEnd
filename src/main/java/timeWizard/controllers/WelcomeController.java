@@ -10,15 +10,10 @@ import javax.crypto.BadPaddingException;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestHeader;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 
+import timeWizard.entity.TableColumn;
 import timeWizard.entity.TableTask;
 import timeWizard.entity.User;
 import timeWizard.entity.CalendarTask;
@@ -149,11 +144,11 @@ public class WelcomeController {
 
 	@PostMapping(path="/saveTableTask", consumes ={"application/json"})
 	public ResponseEntity<String> saveTableTask(@RequestBody TableTask task, @RequestHeader(name = "Authorization") String token) {
-		String userEmail = getUserEmail(token);
-		if(userEmail == null){
-			return new ResponseEntity<>("Token is expired", HttpStatus.BAD_REQUEST);
-		}
-		task.setEmail(userEmail);
+//		String userEmail = getUserEmail(token);
+//		if(userEmail == null){
+//			return new ResponseEntity<>("Token is expired", HttpStatus.BAD_REQUEST);
+//		}
+//		task.setEmail(userEmail);
 
 		try {
 			dao.create(task);
@@ -167,11 +162,11 @@ public class WelcomeController {
 
 	@PostMapping(path="/updateTableTask", consumes ={"application/json"})
 	public ResponseEntity<String> updateTableTask(@RequestBody TableTask task, @RequestHeader(name = "Authorization") String token) {
-		String userEmail = getUserEmail(token);
-		if(userEmail == null){
-			return new ResponseEntity<>("Token is expired", HttpStatus.BAD_REQUEST);
-		}
-		task.setEmail(userEmail);
+//		String userEmail = getUserEmail(token);
+//		if(userEmail == null){
+//			return new ResponseEntity<>("Token is expired", HttpStatus.BAD_REQUEST);
+//		}
+//		task.setEmail(userEmail);
 
 		try {
 			dao.update(task);
@@ -185,11 +180,11 @@ public class WelcomeController {
 
 	@PostMapping(path="/deleteTableTask", consumes ={"application/json"})
 	public ResponseEntity<String> deleteTableTask(@RequestBody TableTask task, @RequestHeader(name = "Authorization") String token) {
-		String userEmail = getUserEmail(token);
-		if(userEmail == null){
-			return new ResponseEntity<>("Token is expired", HttpStatus.BAD_REQUEST);
-		}
-		task.setEmail(userEmail);
+//		String userEmail = getUserEmail(token);
+//		if(userEmail == null){
+//			return new ResponseEntity<>("Token is expired", HttpStatus.BAD_REQUEST);
+//		}
+//		task.setEmail(userEmail);
 
 		try {
 			dao.delete(task);
@@ -231,8 +226,8 @@ public class WelcomeController {
 		return new ResponseEntity<>(list,HttpStatus.ACCEPTED);
 	}
 
-	@GetMapping(path="/getAllTableTasks")
-	public ResponseEntity<?> getAllTableTasks(@RequestHeader(name = "Authorization") String token) {
+	@PostMapping(path="/getAllTableTasks", consumes ={"application/json"})
+	public ResponseEntity<?> getAllTableTasks(@RequestBody TableColumn column, @RequestHeader(name = "Authorization") String token) {
 		EncryptedAuthToken encryptedToken = new EncryptedAuthToken(token);
 		String email;
 
@@ -246,8 +241,82 @@ public class WelcomeController {
 		}
 
 		@SuppressWarnings (value="unchecked")
-		ArrayList<CalendarTask> tableTasks = (ArrayList<CalendarTask>) dao.readAll(TableTask.class,email);
+		ArrayList<TableTask> tableTasks = (ArrayList<TableTask>) dao.readAll(TableTask.class,column);
 
 		return new ResponseEntity<>(tableTasks,HttpStatus.ACCEPTED);
+	}
+
+	@GetMapping(path="/getAllTableColumns")
+	public ResponseEntity<?> getAllTableColumns(@RequestHeader(name = "Authorization") String token) {
+		EncryptedAuthToken encryptedToken = new EncryptedAuthToken(token);
+		String email;
+
+		try {
+			if(!encryptedToken.isTrue()) {
+				return new ResponseEntity<>("Token is false", HttpStatus.BAD_REQUEST);
+			}
+			email = encryptedToken.decrypt().getUserEmail();
+		} catch (BadPaddingException e) {
+			return new ResponseEntity<>("Token is expired", HttpStatus.BAD_REQUEST);
+		}
+
+		@SuppressWarnings (value="unchecked")
+		ArrayList<TableColumn> tableColumns = (ArrayList<TableColumn>) dao.readAll(TableColumn.class,email);
+
+		return new ResponseEntity<>(tableColumns,HttpStatus.ACCEPTED);
+	}
+
+	@PostMapping(path="/saveTableColumn", consumes ={"application/json"})
+	public ResponseEntity<String> saveTableColumn(@RequestBody TableColumn task, @RequestHeader(name = "Authorization") String token) {
+		String userEmail = getUserEmail(token);
+		if(userEmail == null){
+			return new ResponseEntity<>("Token is expired", HttpStatus.BAD_REQUEST);
+		}
+		task.setEmail(userEmail);
+
+		try {
+			dao.create(task);
+		} catch (SQLDataException e) {
+			return new ResponseEntity<>("Task didn't create", HttpStatus.BAD_REQUEST);
+		}
+
+		HttpHeaders headers = new HttpHeaders();
+		return new ResponseEntity<>("Task created", headers, HttpStatus.CREATED);
+	}
+
+	@PostMapping(path="/updateTableColumn", consumes ={"application/json"})
+	public ResponseEntity<String> updateTableColumn(@RequestBody TableColumn task, @RequestHeader(name = "Authorization") String token) {
+		String userEmail = getUserEmail(token);
+		if(userEmail == null){
+			return new ResponseEntity<>("Token is expired", HttpStatus.BAD_REQUEST);
+		}
+		task.setEmail(userEmail);
+
+		try {
+			dao.update(task);
+		} catch (SQLDataException e) {
+			return new ResponseEntity<>("Task didn't update", HttpStatus.BAD_REQUEST);
+		}
+
+		HttpHeaders headers = new HttpHeaders();
+		return new ResponseEntity<>("Task updated", headers, HttpStatus.CREATED);
+	}
+
+	@PostMapping(path="/deleteTableColumn", consumes ={"application/json"})
+	public ResponseEntity<String> deleteTableColumn(@RequestBody TableColumn task, @RequestHeader(name = "Authorization") String token) {
+		String userEmail = getUserEmail(token);
+		if(userEmail == null){
+			return new ResponseEntity<>("Token is expired", HttpStatus.BAD_REQUEST);
+		}
+		task.setEmail(userEmail);
+
+		try {
+			dao.delete(task);
+		} catch (SQLDataException e) {
+			return new ResponseEntity<>("Task didn't delete", HttpStatus.BAD_REQUEST);
+		}
+
+		HttpHeaders headers = new HttpHeaders();
+		return new ResponseEntity<>("Task deleted", headers, HttpStatus.CREATED);
 	}
 }
