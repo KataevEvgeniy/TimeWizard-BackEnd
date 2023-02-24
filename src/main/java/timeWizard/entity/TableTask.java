@@ -16,8 +16,9 @@ public class TableTask {
 
     @Column(name="text")
     private String text;
-    @Column(name="column_number")
-    private int ColumnNumber;
-    @Column(name="user_email")
-    private String email;
+
+    @ManyToOne
+    @JoinColumn(name = "column_id")
+    private TableColumn tableColumn;
+
 }
