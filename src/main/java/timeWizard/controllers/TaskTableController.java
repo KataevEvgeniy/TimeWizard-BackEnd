@@ -1,9 +1,11 @@
 package timeWizard.controllers;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import timeWizard.DAOLayer.Dao;
 import timeWizard.DAOLayer.MainDao;
 import timeWizard.entity.TableColumn;
 import timeWizard.entity.TableTask;
@@ -16,6 +18,11 @@ import java.util.ArrayList;
 @RestController
 @RequestMapping(produces = "application/json")
 public class TaskTableController extends AbstractController {
+
+    @Autowired
+    TaskTableController(Dao dao) {
+        super(dao);
+    }
 
     @PostMapping(path="/saveTableTask", consumes ={"application/json"})
     public ResponseEntity<String> saveTableTask(@RequestBody TableTask task, @RequestHeader(name = "Authorization") String token) {

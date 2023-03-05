@@ -11,12 +11,13 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="55fd21b0-4f6f-49c2-9b1f-592855c7340b" name="Changes" comment="split class WelcomeController&#10;create abstractController &#10;refactor controllers">
-      <change afterPath="$PROJECT_DIR$/src/main/java/timeWizard/controllers/AbstractController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/timeWizard/controllers/AuthController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/timeWizard/controllers/CalendarController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/timeWizard/controllers/TaskTableController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/timeWizard/controllers/WelcomeController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/timeWizard/DAOLayer/Dao.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/timeWizard/DAOLayer/Dao.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/timeWizard/DAOLayer/MainDao.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/timeWizard/DAOLayer/MainDao.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/timeWizard/controllers/AbstractController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/timeWizard/controllers/AbstractController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/timeWizard/controllers/AuthController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/timeWizard/controllers/AuthController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/timeWizard/controllers/CalendarController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/timeWizard/controllers/CalendarController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/timeWizard/controllers/TaskTableController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/timeWizard/controllers/TaskTableController.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -314,7 +315,8 @@
       <workItem from="1677760490146" duration="810000" />
       <workItem from="1677761850016" duration="1215000" />
       <workItem from="1677845281405" duration="614000" />
-      <workItem from="1677935124805" duration="3877000" />
+      <workItem from="1677935124805" duration="4853000" />
+      <workItem from="1677996345045" duration="3742000" />
     </task>
     <task id="LOCAL-00001" summary="init">
       <created>1674387156711</created>
@@ -491,7 +493,14 @@
       <option name="project" value="LOCAL" />
       <updated>1677263363392</updated>
     </task>
-    <option name="localTasksCounter" value="26" />
+    <task id="LOCAL-00026" summary="split class WelcomeController&#10;create abstractController &#10;refactor controllers">
+      <created>1677946763391</created>
+      <option name="number" value="00026" />
+      <option name="presentableId" value="LOCAL-00026" />
+      <option name="project" value="LOCAL" />
+      <updated>1677946763391</updated>
+    </task>
+    <option name="localTasksCounter" value="27" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">

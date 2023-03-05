@@ -1,9 +1,11 @@
 package timeWizard.controllers;
 
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import timeWizard.DAOLayer.Dao;
 import timeWizard.entity.CalendarTask;
 import timeWizard.tokens.EncryptedAuthToken;
 
@@ -15,6 +17,10 @@ import java.util.ArrayList;
 @RequestMapping(produces = "application/json")
 public class CalendarController extends AbstractController{
 
+    @Autowired
+    CalendarController(Dao dao) {
+        super(dao);
+    }
     @PostMapping(path="/saveCalendarTask", consumes ={"application/json"})
     public ResponseEntity<String> saveCalendarTask(@RequestBody CalendarTask task, @RequestHeader(name = "Authorization") String token) {
         String userEmail = getUserEmail(token);

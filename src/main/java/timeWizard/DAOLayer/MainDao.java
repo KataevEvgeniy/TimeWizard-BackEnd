@@ -1,5 +1,6 @@
 package timeWizard.DAOLayer;
 
+import org.springframework.stereotype.Component;
 import timeWizard.entity.TableColumn;
 
 import java.sql.SQLDataException;
@@ -10,6 +11,7 @@ import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 
 
+@Component
 public class MainDao implements Dao{
 	public final EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("persistence");//name use from persistence.xml
     

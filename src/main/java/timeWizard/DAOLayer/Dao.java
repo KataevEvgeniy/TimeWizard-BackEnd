@@ -1,7 +1,10 @@
 package timeWizard.DAOLayer;
 
+import timeWizard.entity.TableColumn;
+
 import java.sql.SQLDataException;
 import java.util.List;
+
 
 public interface Dao {
     String create(Object obj) throws SQLDataException;
@@ -13,6 +16,8 @@ public interface Dao {
     long getMax(Class<?> cl, String row);
 
     List<?> readAll(Class<?> cl, String email);
+
+    List<?> readAll(Class<?> cl, TableColumn column);
 
     List<?> readAll(Class<?> cl);
 
