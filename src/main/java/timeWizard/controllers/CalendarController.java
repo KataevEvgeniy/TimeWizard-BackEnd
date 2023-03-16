@@ -22,10 +22,10 @@ public class CalendarController extends AbstractController{
         super(dao);
     }
     @PostMapping(path="/saveCalendarTask", consumes ={"application/json"})
-    public ResponseEntity<String> saveCalendarTask(@RequestBody CalendarTask task, @RequestHeader(name = "Authorization") String token) {
+    public ResponseEntity<?> saveCalendarTask(@RequestBody CalendarTask task, @RequestHeader(name = "Authorization") String token) {
         String userEmail = getUserEmail(token);
         if(userEmail == null){
-            return new ResponseEntity<>("Token is expired", HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>("Token is expired", HttpStatus.UNAUTHORIZED);
         }
 
         task.setEmail(userEmail);
@@ -35,14 +35,14 @@ public class CalendarController extends AbstractController{
             return new ResponseEntity<>("Task didn't created", HttpStatus.BAD_REQUEST);
         }
 
-        return new ResponseEntity<>("Task created", HttpStatus.CREATED);
+        return new ResponseEntity<>(task, HttpStatus.CREATED);
     }
 
     @PostMapping(path="/updateCalendarTask", consumes ={"application/json"})
-    public ResponseEntity<String> updateCalendarTask(@RequestBody CalendarTask task,@RequestHeader(name = "Authorization") String token) {
+    public ResponseEntity<?> updateCalendarTask(@RequestBody CalendarTask task,@RequestHeader(name = "Authorization") String token) {
         String userEmail = getUserEmail(token);
         if(userEmail == null){
-            return new ResponseEntity<>("Token is expired", HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>("Token is expired", HttpStatus.UNAUTHORIZED);
         }
 
         task.setEmail(userEmail);
@@ -52,7 +52,7 @@ public class CalendarController extends AbstractController{
             return new ResponseEntity<>("Task didn't update", HttpStatus.BAD_REQUEST);
         }
 
-        return new ResponseEntity<>("Task updated", HttpStatus.CREATED);
+        return new ResponseEntity<>(task, HttpStatus.CREATED);
     }
 
     @PostMapping(path="/deleteCalendarTask", consumes ={"application/json"})

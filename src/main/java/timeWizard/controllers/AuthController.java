@@ -44,7 +44,7 @@ public class AuthController extends AbstractController {
 		try {
 			dao.create(user);
 		} catch (SQLDataException e) {
-			return new ResponseEntity<>("User already registered", HttpStatus.BAD_REQUEST);
+			return new ResponseEntity<>("User already registered", HttpStatus.UNAUTHORIZED);
 		}
 		
 		AuthToken token = new AuthToken(user);
@@ -63,7 +63,7 @@ public class AuthController extends AbstractController {
 		
 		User existingUser = (User)dao.read(User.class, loggingUser.getEmail());
 		if(!loggingUser.equals(existingUser)) {
-			return new ResponseEntity<>("Login failed", HttpStatus.BAD_REQUEST);
+			return new ResponseEntity<>("Login failed", HttpStatus.UNAUTHORIZED);
 		}
 		
 		AuthToken token = new AuthToken(loggingUser);
@@ -81,9 +81,9 @@ public class AuthController extends AbstractController {
 				return new ResponseEntity<>("Token is true", HttpStatus.ACCEPTED);
 			}
 		} catch (BadPaddingException e) {
-			return new ResponseEntity<>("Token is expired", HttpStatus.BAD_REQUEST);
+			return new ResponseEntity<>("Token is expired", HttpStatus.UNAUTHORIZED);
 		}
-		return new ResponseEntity<>("Token is false", HttpStatus.BAD_REQUEST);
+		return new ResponseEntity<>("Token is false", HttpStatus.UNAUTHORIZED);
 	}
 
 

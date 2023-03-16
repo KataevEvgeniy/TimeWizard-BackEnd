@@ -65,17 +65,6 @@ public class TaskTableController extends AbstractController {
 
     @PostMapping(path="/getAllTableTasks", consumes ={"application/json"})
     public ResponseEntity<?> getAllTableTasks(@RequestBody TableColumn column, @RequestHeader(name = "Authorization") String token) {
-        EncryptedAuthToken encryptedToken = new EncryptedAuthToken(token);
-        String email;
-
-        try {
-            if(!encryptedToken.isTrue()) {
-                return new ResponseEntity<>("Token is false", HttpStatus.BAD_REQUEST);
-            }
-            email = encryptedToken.decrypt().getUserEmail();
-        } catch (BadPaddingException e) {
-            return new ResponseEntity<>("Token is expired", HttpStatus.BAD_REQUEST);
-        }
 
         @SuppressWarnings (value="unchecked")
         ArrayList<TableTask> tableTasks = (ArrayList<TableTask>) dao.readAll(TableTask.class,column);
@@ -87,7 +76,7 @@ public class TaskTableController extends AbstractController {
     public ResponseEntity<String> saveTableColumn(@RequestBody TableColumn task, @RequestHeader(name = "Authorization") String token) {
         String userEmail = getUserEmail(token);
         if(userEmail == null){
-            return new ResponseEntity<>("Token is expired", HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>("Token is expired", HttpStatus.UNAUTHORIZED);
         }
         task.setEmail(userEmail);
 
@@ -105,7 +94,7 @@ public class TaskTableController extends AbstractController {
     public ResponseEntity<String> updateTableColumn(@RequestBody TableColumn task, @RequestHeader(name = "Authorization") String token) {
         String userEmail = getUserEmail(token);
         if(userEmail == null){
-            return new ResponseEntity<>("Token is expired", HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>("Token is expired", HttpStatus.UNAUTHORIZED);
         }
         task.setEmail(userEmail);
 
@@ -125,7 +114,7 @@ public class TaskTableController extends AbstractController {
     public ResponseEntity<String> deleteTableColumn(@RequestBody TableColumn task, @RequestHeader(name = "Authorization") String token) {
         String userEmail = getUserEmail(token);
         if(userEmail == null){
-            return new ResponseEntity<>("Token is expired", HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>("Token is expired", HttpStatus.UNAUTHORIZED);
         }
         task.setEmail(userEmail);
 
@@ -152,7 +141,7 @@ public class TaskTableController extends AbstractController {
             }
             email = encryptedToken.decrypt().getUserEmail();
         } catch (BadPaddingException e) {
-            return new ResponseEntity<>("Token is expired", HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>("Token is expired", HttpStatus.UNAUTHORIZED);
         }
 
         @SuppressWarnings (value="unchecked")

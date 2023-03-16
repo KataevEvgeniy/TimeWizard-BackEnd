@@ -10,10 +10,8 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="55fd21b0-4f6f-49c2-9b1f-592855c7340b" name="Changes" comment="split class WelcomeController&#10;create abstractController &#10;refactor controllers">
+    <list default="true" id="55fd21b0-4f6f-49c2-9b1f-592855c7340b" name="Changes" comment="add @autowired to all classes">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/timeWizard/DAOLayer/Dao.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/timeWizard/DAOLayer/Dao.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/timeWizard/DAOLayer/MainDao.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/timeWizard/DAOLayer/MainDao.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/timeWizard/controllers/AbstractController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/timeWizard/controllers/AbstractController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/timeWizard/controllers/AuthController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/timeWizard/controllers/AuthController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/timeWizard/controllers/CalendarController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/timeWizard/controllers/CalendarController.java" afterDir="false" />
@@ -316,7 +314,16 @@
       <workItem from="1677761850016" duration="1215000" />
       <workItem from="1677845281405" duration="614000" />
       <workItem from="1677935124805" duration="4853000" />
-      <workItem from="1677996345045" duration="3742000" />
+      <workItem from="1677996345045" duration="5092000" />
+      <workItem from="1678105076938" duration="636000" />
+      <workItem from="1678201431403" duration="819000" />
+      <workItem from="1678254961060" duration="615000" />
+      <workItem from="1678256760903" duration="611000" />
+      <workItem from="1678378263382" duration="614000" />
+      <workItem from="1678464688615" duration="4023000" />
+      <workItem from="1678607147244" duration="3003000" />
+      <workItem from="1678893684958" duration="640000" />
+      <workItem from="1678976255077" duration="667000" />
     </task>
     <task id="LOCAL-00001" summary="init">
       <created>1674387156711</created>
@@ -500,7 +507,21 @@
       <option name="project" value="LOCAL" />
       <updated>1677946763391</updated>
     </task>
-    <option name="localTasksCounter" value="27" />
+    <task id="LOCAL-00027" summary="add @autowired to all classes">
+      <created>1678002572044</created>
+      <option name="number" value="00027" />
+      <option name="presentableId" value="LOCAL-00027" />
+      <option name="project" value="LOCAL" />
+      <updated>1678002572044</updated>
+    </task>
+    <task id="LOCAL-00028" summary="add @autowired to all classes">
+      <created>1678002697463</created>
+      <option name="number" value="00028" />
+      <option name="presentableId" value="LOCAL-00028" />
+      <option name="project" value="LOCAL" />
+      <updated>1678002697463</updated>
+    </task>
+    <option name="localTasksCounter" value="29" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -542,7 +563,8 @@
     <MESSAGE value="optimize and refactor TableTask class" />
     <MESSAGE value="add CRUD methods for TableColumn entity&#10;more minor fixes" />
     <MESSAGE value="split class WelcomeController&#10;create abstractController &#10;refactor controllers" />
-    <option name="LAST_COMMIT_MESSAGE" value="split class WelcomeController&#10;create abstractController &#10;refactor controllers" />
+    <MESSAGE value="add @autowired to all classes" />
+    <option name="LAST_COMMIT_MESSAGE" value="add @autowired to all classes" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />
