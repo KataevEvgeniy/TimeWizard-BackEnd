@@ -10,12 +10,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="55fd21b0-4f6f-49c2-9b1f-592855c7340b" name="Changes" comment="add @autowired to all classes">
+    <list default="true" id="55fd21b0-4f6f-49c2-9b1f-592855c7340b" name="Changes" comment="change returning  from strings to object in controllers">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/timeWizard/controllers/AbstractController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/timeWizard/controllers/AbstractController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/timeWizard/controllers/AuthController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/timeWizard/controllers/AuthController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/timeWizard/controllers/CalendarController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/timeWizard/controllers/CalendarController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/timeWizard/controllers/TaskTableController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/timeWizard/controllers/TaskTableController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/timeWizard/entity/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/timeWizard/entity/User.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -60,6 +58,7 @@
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
     &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
     &quot;last_opened_file_path&quot;: &quot;C:/Users/jackm/TimeWizard-BackEnd&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
     &quot;project.structure.last.edited&quot;: &quot;Artifacts&quot;,
     &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
     &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;,
@@ -76,6 +75,10 @@
     <key name="MoveFile.RECENT_KEYS">
       <recent name="C:\Users\jackm\IdeaProjects\TimeWizard\src\main\resources" />
       <recent name="C:\Users\jackm\IdeaProjects\TimeWizard\src\main\java" />
+    </key>
+    <key name="MoveClassesOrPackagesDialog.RECENTS_KEY">
+      <recent name="test" />
+      <recent name="java" />
     </key>
   </component>
   <component name="RunManager" selected="Tomcat Server.Tomcat 9.0.65">
@@ -323,7 +326,10 @@
       <workItem from="1678464688615" duration="4023000" />
       <workItem from="1678607147244" duration="3003000" />
       <workItem from="1678893684958" duration="640000" />
-      <workItem from="1678976255077" duration="667000" />
+      <workItem from="1678976255077" duration="6455000" />
+      <workItem from="1678985483805" duration="2482000" />
+      <workItem from="1679062563971" duration="594000" />
+      <workItem from="1679141321722" duration="8938000" />
     </task>
     <task id="LOCAL-00001" summary="init">
       <created>1674387156711</created>
@@ -521,7 +527,14 @@
       <option name="project" value="LOCAL" />
       <updated>1678002697463</updated>
     </task>
-    <option name="localTasksCounter" value="29" />
+    <task id="LOCAL-00029" summary="change returning  from strings to object in controllers">
+      <created>1678978580629</created>
+      <option name="number" value="00029" />
+      <option name="presentableId" value="LOCAL-00029" />
+      <option name="project" value="LOCAL" />
+      <updated>1678978580629</updated>
+    </task>
+    <option name="localTasksCounter" value="30" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -539,7 +552,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="init" />
     <MESSAGE value="add &quot;color&quot; field to class &quot;UserTask&quot; and to database" />
     <MESSAGE value="remove field &quot;data&quot; from class &quot;UserTask&quot;" />
     <MESSAGE value="add method &quot;deleteTask&quot; in Controller" />
@@ -564,7 +576,8 @@
     <MESSAGE value="add CRUD methods for TableColumn entity&#10;more minor fixes" />
     <MESSAGE value="split class WelcomeController&#10;create abstractController &#10;refactor controllers" />
     <MESSAGE value="add @autowired to all classes" />
-    <option name="LAST_COMMIT_MESSAGE" value="add @autowired to all classes" />
+    <MESSAGE value="change returning  from strings to object in controllers" />
+    <option name="LAST_COMMIT_MESSAGE" value="change returning  from strings to object in controllers" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />
