@@ -16,6 +16,7 @@ import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.lang.NonNull;
 
 @JsonAutoDetect
 @Data
@@ -24,10 +25,13 @@ import lombok.NoArgsConstructor;
 @Entity
 @Table(name="users")
 public class User {
-	
+
+	@NonNull
 	private String username;
 	@Id
+	@NonNull
 	private String email;
+	@NonNull
 	private String password;
 	
 	public void encryptPassword() {

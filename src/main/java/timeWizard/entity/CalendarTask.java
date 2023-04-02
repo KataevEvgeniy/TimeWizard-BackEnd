@@ -11,6 +11,7 @@ import javax.persistence.Table;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.lang.NonNull;
 
 @Data
 @NoArgsConstructor
@@ -18,38 +19,33 @@ import lombok.NoArgsConstructor;
 @Table(name="calendar_tasks")
 public class CalendarTask {
 	@Id
+	@NonNull
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long id;
 	private String title;
 	private String definition;
+	@NonNull
 	@Column(name="user_email")
 	private String email;
-	
+
+	@NonNull
 	@Column(name="start_date")
 	private Date startDate;
+	@NonNull
 	@Column(name="end_date")
 	private Date endDate;
 	
 	private Boolean completed;
 
+	@NonNull
 	@Column(name="color")
 	private String colorInHex;
 
+	@NonNull
 	@Column(name="frequency")
 	private int frequency;
+	@NonNull
 	@Column(name="time_unit")
 	private String timeUnit;
-	
-	public CalendarTask(String title, String definition, String email, Date startDate, Date endDate) {
-		
-		this.title = title;
-		this.definition = definition;
-		this.email = email;
-		this.startDate = startDate;
-		this.endDate = endDate;
 
-	}
-	
-	
-	
 }

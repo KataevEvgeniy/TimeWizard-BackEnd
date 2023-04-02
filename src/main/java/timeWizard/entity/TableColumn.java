@@ -2,6 +2,7 @@ package timeWizard.entity;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.lang.NonNull;
 
 import javax.persistence.*;
 
@@ -11,12 +12,15 @@ import javax.persistence.*;
 @Table(name="table_columns")
 public class TableColumn {
     @Id
+    @NonNull
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
+    @NonNull
     @Column(name="title")
     private String title;
 
+    @NonNull
     @Column(name="user_email")
     private String email;
 }
