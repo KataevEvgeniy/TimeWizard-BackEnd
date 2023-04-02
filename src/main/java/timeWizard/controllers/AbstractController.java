@@ -10,7 +10,7 @@ import timeWizard.tokens.EncryptedAuthToken;
 
 import javax.crypto.BadPaddingException;
 
-@CrossOrigin(origins="https://timewizardapp.netlify.app")
+@CrossOrigin(origins="http://localhost:8080")
 public abstract class AbstractController {
     protected Dao dao;
     @Autowired

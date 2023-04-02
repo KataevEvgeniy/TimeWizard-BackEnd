@@ -16,7 +16,7 @@ import javax.persistence.Persistence;
 public class MainDao implements Dao{
 	private final EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("persistence");//name use from persistence.xml
     
-    public void create(Object obj) throws SQLDataException{
+    public void create(Object obj) throws SQLDataException {
     	EntityManager em = entityManagerFactory.createEntityManager();
     	em.getTransaction().begin();
     	em.persist(obj);

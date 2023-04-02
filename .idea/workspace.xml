@@ -10,10 +10,13 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="55fd21b0-4f6f-49c2-9b1f-592855c7340b" name="Changes" comment="change returning  from strings to object in controllers">
+    <list default="true" id="55fd21b0-4f6f-49c2-9b1f-592855c7340b" name="Changes" comment="delete checking null because spring checks it before">
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/timeWizard/entity/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/timeWizard/entity/User.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/timeWizard/DAOLayer/MainDao.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/timeWizard/DAOLayer/MainDao.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/timeWizard/controllers/AbstractController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/timeWizard/controllers/AbstractController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/timeWizard/test/AuthControllerTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/timeWizard/test/AuthControllerTest.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -52,25 +55,25 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Users/jackm/TimeWizard-BackEnd&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;project.structure.last.edited&quot;: &quot;Artifacts&quot;,
-    &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
-    &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.pluginManager&quot;,
-    &quot;spring.configuration.checksum&quot;: &quot;1312f6b0f5cd831ddd1fd0f9b49a8114&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "WebServerToolWindowFactoryState": "false",
+    "last_opened_file_path": "C:/Users/jackm/TimeWizard-BackEnd",
+    "nodejs_package_manager_path": "npm",
+    "project.structure.last.edited": "Artifacts",
+    "project.structure.proportion": "0.15",
+    "project.structure.side.proportion": "0.2",
+    "settings.editor.selected.configurable": "preferences.pluginManager",
+    "spring.configuration.checksum": "1312f6b0f5cd831ddd1fd0f9b49a8114"
   },
-  &quot;keyToStringList&quot;: {
-    &quot;DatabaseDriversLRU&quot;: [
-      &quot;postgresql&quot;
+  "keyToStringList": {
+    "DatabaseDriversLRU": [
+      "postgresql"
     ]
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
       <recent name="C:\Users\jackm\IdeaProjects\TimeWizard\src\main\resources" />
@@ -88,8 +91,96 @@
     <configuration name="generated-requests | #2" type="HttpClient.HttpRequestRunConfigurationType" factoryName="HTTP Request" temporary="true" nameIsGenerated="true" path="$APPLICATION_CONFIG_DIR$/scratches/generated-requests.http" index="2" requestIdentifier="#2" runType="Run single request">
       <method v="2" />
     </configuration>
-    <configuration name="Tomcat 9.0.65" type="#com.intellij.j2ee.web.tomcat.TomcatRunConfigurationFactory" factoryName="Local" APPLICATION_SERVER_NAME="Tomcat 9.0.65" ALTERNATIVE_JRE_ENABLED="false" nameIsGenerated="true">
+    <configuration name="Tomcat 10.1.7" type="#com.intellij.j2ee.web.tomcat.TomcatRunConfigurationFactory" factoryName="Local" APPLICATION_SERVER_NAME="Tomcat 10.1.7" ALTERNATIVE_JRE_ENABLED="false" nameIsGenerated="true">
       <option name="OPEN_IN_BROWSER_URL" value="http://localhost:8081/taskScheduler/" />
+      <option name="UPDATING_POLICY" value="restart-server" />
+      <deployment>
+        <artifact name="TimeWizard-BackEnd:war">
+          <settings>
+            <option name="CONTEXT_PATH" value="/TimeWizard_BackEnd_war" />
+          </settings>
+        </artifact>
+      </deployment>
+      <server-settings>
+        <option name="BASE_DIRECTORY_NAME" value="98ab8b0d-dbc5-4616-9cc4-423d46305f34" />
+        <option name="HTTP_PORT" value="8081" />
+      </server-settings>
+      <predefined_log_file enabled="true" id="Tomcat" />
+      <predefined_log_file enabled="true" id="Tomcat Catalina" />
+      <predefined_log_file id="Tomcat Manager" />
+      <predefined_log_file id="Tomcat Host Manager" />
+      <predefined_log_file id="Tomcat Localhost Access" />
+      <RunnerSettings RunnerId="Debug">
+        <option name="DEBUG_PORT" value="59548" />
+      </RunnerSettings>
+      <ConfigurationWrapper VM_VAR="JAVA_OPTS" RunnerId="Cover">
+        <option name="USE_ENV_VARIABLES" value="true" />
+        <STARTUP>
+          <option name="USE_DEFAULT" value="true" />
+          <option name="SCRIPT" value="" />
+          <option name="VM_PARAMETERS" value="" />
+          <option name="PROGRAM_PARAMETERS" value="" />
+        </STARTUP>
+        <SHUTDOWN>
+          <option name="USE_DEFAULT" value="true" />
+          <option name="SCRIPT" value="" />
+          <option name="VM_PARAMETERS" value="" />
+          <option name="PROGRAM_PARAMETERS" value="" />
+        </SHUTDOWN>
+      </ConfigurationWrapper>
+      <ConfigurationWrapper VM_VAR="JAVA_OPTS" RunnerId="Debug">
+        <option name="USE_ENV_VARIABLES" value="true" />
+        <STARTUP>
+          <option name="USE_DEFAULT" value="true" />
+          <option name="SCRIPT" value="" />
+          <option name="VM_PARAMETERS" value="" />
+          <option name="PROGRAM_PARAMETERS" value="" />
+        </STARTUP>
+        <SHUTDOWN>
+          <option name="USE_DEFAULT" value="true" />
+          <option name="SCRIPT" value="" />
+          <option name="VM_PARAMETERS" value="" />
+          <option name="PROGRAM_PARAMETERS" value="" />
+        </SHUTDOWN>
+      </ConfigurationWrapper>
+      <ConfigurationWrapper VM_VAR="JAVA_OPTS" RunnerId="Profile">
+        <option name="USE_ENV_VARIABLES" value="true" />
+        <STARTUP>
+          <option name="USE_DEFAULT" value="true" />
+          <option name="SCRIPT" value="" />
+          <option name="VM_PARAMETERS" value="" />
+          <option name="PROGRAM_PARAMETERS" value="" />
+        </STARTUP>
+        <SHUTDOWN>
+          <option name="USE_DEFAULT" value="true" />
+          <option name="SCRIPT" value="" />
+          <option name="VM_PARAMETERS" value="" />
+          <option name="PROGRAM_PARAMETERS" value="" />
+        </SHUTDOWN>
+      </ConfigurationWrapper>
+      <ConfigurationWrapper VM_VAR="JAVA_OPTS" RunnerId="Run">
+        <option name="USE_ENV_VARIABLES" value="true" />
+        <STARTUP>
+          <option name="USE_DEFAULT" value="true" />
+          <option name="SCRIPT" value="" />
+          <option name="VM_PARAMETERS" value="" />
+          <option name="PROGRAM_PARAMETERS" value="" />
+        </STARTUP>
+        <SHUTDOWN>
+          <option name="USE_DEFAULT" value="true" />
+          <option name="SCRIPT" value="" />
+          <option name="VM_PARAMETERS" value="" />
+          <option name="PROGRAM_PARAMETERS" value="" />
+        </SHUTDOWN>
+      </ConfigurationWrapper>
+      <method v="2">
+        <option name="Make" enabled="true" />
+        <option name="BuildArtifacts" enabled="true">
+          <artifact name="TimeWizard-BackEnd:war" />
+        </option>
+      </method>
+    </configuration>
+    <configuration name="Tomcat 9.0.65" type="#com.intellij.j2ee.web.tomcat.TomcatRunConfigurationFactory" factoryName="Local" APPLICATION_SERVER_NAME="Tomcat 9.0.65" ALTERNATIVE_JRE_ENABLED="false" nameIsGenerated="true">
       <option name="UPDATING_POLICY" value="restart-server" />
       <deployment>
         <artifact name="TimeWizard-BackEnd:war">
@@ -259,6 +350,7 @@
     <list>
       <item itemvalue="HTTP Request.All in generated-requests" />
       <item itemvalue="HTTP Request.generated-requests | #2" />
+      <item itemvalue="Tomcat Server.Tomcat 10.1.7" />
       <item itemvalue="Tomcat Server.Tomcat 9.0.65" />
     </list>
     <recent_temporary>
@@ -329,7 +421,17 @@
       <workItem from="1678976255077" duration="6455000" />
       <workItem from="1678985483805" duration="2482000" />
       <workItem from="1679062563971" duration="594000" />
-      <workItem from="1679141321722" duration="8938000" />
+      <workItem from="1679141321722" duration="10503000" />
+      <workItem from="1679242086693" duration="624000" />
+      <workItem from="1679283960361" duration="309000" />
+      <workItem from="1679284285210" duration="106000" />
+      <workItem from="1679284408298" duration="62000" />
+      <workItem from="1679404230174" duration="806000" />
+      <workItem from="1680012321281" duration="7055000" />
+      <workItem from="1680105793955" duration="8413000" />
+      <workItem from="1680114271574" duration="1970000" />
+      <workItem from="1680281594916" duration="763000" />
+      <workItem from="1680415440760" duration="7836000" />
     </task>
     <task id="LOCAL-00001" summary="init">
       <created>1674387156711</created>
@@ -534,7 +636,35 @@
       <option name="project" value="LOCAL" />
       <updated>1678978580629</updated>
     </task>
-    <option name="localTasksCounter" value="30" />
+    <task id="LOCAL-00030" summary="write a test for /register link&#10;update spring and tests libraries">
+      <created>1679155689368</created>
+      <option name="number" value="00030" />
+      <option name="presentableId" value="LOCAL-00030" />
+      <option name="project" value="LOCAL" />
+      <updated>1679155689368</updated>
+    </task>
+    <task id="LOCAL-00031" summary="refactor Dao layer">
+      <created>1680021031218</created>
+      <option name="number" value="00031" />
+      <option name="presentableId" value="LOCAL-00031" />
+      <option name="project" value="LOCAL" />
+      <updated>1680021031218</updated>
+    </task>
+    <task id="LOCAL-00032" summary="add notnull annotations">
+      <created>1680424595659</created>
+      <option name="number" value="00032" />
+      <option name="presentableId" value="LOCAL-00032" />
+      <option name="project" value="LOCAL" />
+      <updated>1680424595659</updated>
+    </task>
+    <task id="LOCAL-00033" summary="delete checking null because spring checks it before">
+      <created>1680424712844</created>
+      <option name="number" value="00033" />
+      <option name="presentableId" value="LOCAL-00033" />
+      <option name="project" value="LOCAL" />
+      <updated>1680424712844</updated>
+    </task>
+    <option name="localTasksCounter" value="34" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -552,10 +682,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="add &quot;color&quot; field to class &quot;UserTask&quot; and to database" />
-    <MESSAGE value="remove field &quot;data&quot; from class &quot;UserTask&quot;" />
-    <MESSAGE value="add method &quot;deleteTask&quot; in Controller" />
-    <MESSAGE value="add field &quot;frequency&quot; and &quot;timeUnit&quot; to &quot;UserTask&quot;" />
     <MESSAGE value="add class TaskTable&#10;add methods to WelcomeController &quot;saveTableTask&quot; and &quot;getAllTableTasks&quot;" />
     <MESSAGE value="refactor register in WelcomeController" />
     <MESSAGE value="refactor login in WelcomeController" />
@@ -577,7 +703,11 @@
     <MESSAGE value="split class WelcomeController&#10;create abstractController &#10;refactor controllers" />
     <MESSAGE value="add @autowired to all classes" />
     <MESSAGE value="change returning  from strings to object in controllers" />
-    <option name="LAST_COMMIT_MESSAGE" value="change returning  from strings to object in controllers" />
+    <MESSAGE value="write a test for /register link&#10;update spring and tests libraries" />
+    <MESSAGE value="refactor Dao layer" />
+    <MESSAGE value="add notnull annotations" />
+    <MESSAGE value="delete checking null because spring checks it before" />
+    <option name="LAST_COMMIT_MESSAGE" value="delete checking null because spring checks it before" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />

@@ -51,6 +51,9 @@ public class User {
 	}
 	
 	public boolean equals(User user) {
+		if(user == null){
+			return false;
+		}
 		if (user.getEmail().equals(this.email) && user.getPassword().equals(this.password)) {
 			return true;
 		}
