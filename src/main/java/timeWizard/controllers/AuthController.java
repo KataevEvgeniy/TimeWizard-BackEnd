@@ -36,9 +36,6 @@ public class AuthController extends AbstractController {
 
 	@PostMapping( path="/register", consumes ={"application/json"})
 	public ResponseEntity<String> register(@RequestBody User user) {
-		if(user == null) {
-			return new ResponseEntity<>("User may not have been initialized", HttpStatus.BAD_REQUEST);
-		}
 		user.encryptPassword();
 
 		try {
@@ -56,9 +53,6 @@ public class AuthController extends AbstractController {
 	
 	@PostMapping(path="/login", consumes ={"application/json"})
 	public ResponseEntity<String> login(@RequestBody User loggingUser){
-		if(loggingUser == null) {
-			return new ResponseEntity<>("User may not have been initialized", HttpStatus.BAD_REQUEST);
-		}
 		loggingUser.encryptPassword();
 		
 		User existingUser = (User)dao.read(User.class, loggingUser.getEmail());
