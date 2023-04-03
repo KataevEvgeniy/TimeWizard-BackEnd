@@ -18,13 +18,10 @@ public abstract class AbstractController {
         this.dao = dao;
     }
 
-    protected String getUserEmail(String token){
-        try {
-            EncryptedAuthToken encryptedAuthToken = new EncryptedAuthToken(token);
-            AuthToken decryptedToken = encryptedAuthToken.decrypt();
-            return decryptedToken.getUserEmail();
-        } catch (BadPaddingException e) {
-            return null;
-        }
+    protected String getUserEmail(String token) throws BadPaddingException{
+        EncryptedAuthToken encryptedAuthToken = new EncryptedAuthToken(token);
+        AuthToken decryptedToken = encryptedAuthToken.decrypt();
+        return decryptedToken.getUserEmail();
+
     }
 }

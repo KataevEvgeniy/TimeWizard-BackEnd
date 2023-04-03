@@ -74,8 +74,10 @@ public class TaskTableController extends AbstractController {
 
     @PostMapping(path="/saveTableColumn", consumes ={"application/json"})
     public ResponseEntity<String> saveTableColumn(@RequestBody TableColumn task, @RequestHeader(name = "Authorization") String token) {
-        String userEmail = getUserEmail(token);
-        if(userEmail == null){
+        String userEmail;
+        try {
+            userEmail = getUserEmail(token);
+        } catch (BadPaddingException e) {
             return new ResponseEntity<>("Token is expired", HttpStatus.UNAUTHORIZED);
         }
         task.setEmail(userEmail);
@@ -92,8 +94,10 @@ public class TaskTableController extends AbstractController {
 
     @PostMapping(path="/updateTableColumn", consumes ={"application/json"})
     public ResponseEntity<String> updateTableColumn(@RequestBody TableColumn task, @RequestHeader(name = "Authorization") String token) {
-        String userEmail = getUserEmail(token);
-        if(userEmail == null){
+        String userEmail;
+        try {
+            userEmail = getUserEmail(token);
+        } catch (BadPaddingException e) {
             return new ResponseEntity<>("Token is expired", HttpStatus.UNAUTHORIZED);
         }
         task.setEmail(userEmail);
@@ -112,8 +116,10 @@ public class TaskTableController extends AbstractController {
 
     @PostMapping(path="/deleteTableColumn", consumes ={"application/json"})
     public ResponseEntity<String> deleteTableColumn(@RequestBody TableColumn task, @RequestHeader(name = "Authorization") String token) {
-        String userEmail = getUserEmail(token);
-        if(userEmail == null){
+        String userEmail;
+        try {
+            userEmail = getUserEmail(token);
+        } catch (BadPaddingException e) {
             return new ResponseEntity<>("Token is expired", HttpStatus.UNAUTHORIZED);
         }
         task.setEmail(userEmail);

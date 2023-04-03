@@ -35,11 +35,9 @@ public class EncryptedAuthToken {
 			cipher.init(Cipher.DECRYPT_MODE, AutoUpdatingKey.getInstance().getKey());
 			decryptedToken = cipher.doFinal(DatatypeConverter.parseHexBinary(this.encryptedStringToken));
 			return new AuthToken(new String(decryptedToken,"UTF-8"));
-		} catch (NoSuchAlgorithmException | NoSuchPaddingException | InvalidKeyException | IllegalBlockSizeException | UnsupportedEncodingException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		} catch (Exception e) {
+			throw new BadPaddingException();
 		}
-		return null;
 	}
 	
 	@Override

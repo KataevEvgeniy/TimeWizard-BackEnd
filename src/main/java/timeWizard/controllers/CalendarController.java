@@ -23,8 +23,10 @@ public class CalendarController extends AbstractController{
     }
     @PostMapping(path="/saveCalendarTask", consumes ={"application/json"})
     public ResponseEntity<?> saveCalendarTask(@RequestBody CalendarTask task, @RequestHeader(name = "Authorization") String token) {
-        String userEmail = getUserEmail(token);
-        if(userEmail == null){
+        String userEmail;
+        try {
+            userEmail = getUserEmail(token);
+        } catch (BadPaddingException e) {
             return new ResponseEntity<>("Token is expired", HttpStatus.UNAUTHORIZED);
         }
 
@@ -40,8 +42,10 @@ public class CalendarController extends AbstractController{
 
     @PostMapping(path="/updateCalendarTask", consumes ={"application/json"})
     public ResponseEntity<?> updateCalendarTask(@RequestBody CalendarTask task,@RequestHeader(name = "Authorization") String token) {
-        String userEmail = getUserEmail(token);
-        if(userEmail == null){
+        String userEmail;
+        try {
+            userEmail = getUserEmail(token);
+        } catch (BadPaddingException e) {
             return new ResponseEntity<>("Token is expired", HttpStatus.UNAUTHORIZED);
         }
 
@@ -57,9 +61,11 @@ public class CalendarController extends AbstractController{
 
     @PostMapping(path="/deleteCalendarTask", consumes ={"application/json"})
     public ResponseEntity<String> deleteCalendarTask(@RequestBody CalendarTask task,@RequestHeader(name = "Authorization") String token){
-        String userEmail = getUserEmail(token);
-        if(userEmail == null){
-            return new ResponseEntity<>("Token is expired", HttpStatus.BAD_REQUEST);
+        String userEmail;
+        try {
+            userEmail = getUserEmail(token);
+        } catch (BadPaddingException e) {
+            return new ResponseEntity<>("Token is expired", HttpStatus.UNAUTHORIZED);
         }
 
         task.setEmail(userEmail);
@@ -82,7 +88,7 @@ public class CalendarController extends AbstractController{
             if(!encryptedToken.isTrue()) {
                 return new ResponseEntity<>("Token is false", HttpStatus.BAD_REQUEST);
             }
-            email = encryptedToken.decrypt().getUserEmail();
+            email = getUserEmail(token);
         } catch (BadPaddingException e) {
             return new ResponseEntity<>("Token is expired", HttpStatus.BAD_REQUEST);
         }

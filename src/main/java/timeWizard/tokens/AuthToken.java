@@ -46,5 +46,10 @@ public class AuthToken {
 		} 
 		return new EncryptedAuthToken(DatatypeConverter.printHexBinary(encryptedToken));
 	}
+
+	@Override
+	public String toString(){
+		return token;
+	}
 	
 }
