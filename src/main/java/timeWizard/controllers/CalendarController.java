@@ -79,18 +79,14 @@ public class CalendarController extends AbstractController{
     }
 
 
-    @GetMapping(path="/getAllCallendarTasks")
+    @GetMapping(path="/getAllCalendarTasks")
     public ResponseEntity<?> getAllCalendarTasks(@RequestHeader(name = "Authorization") String token) {
-        EncryptedAuthToken encryptedToken = new EncryptedAuthToken(token);
         String email;
 
         try {
-            if(!encryptedToken.isTrue()) {
-                return new ResponseEntity<>("Token is false", HttpStatus.BAD_REQUEST);
-            }
             email = getUserEmail(token);
         } catch (BadPaddingException e) {
-            return new ResponseEntity<>("Token is expired", HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>("Token is expired", HttpStatus.UNAUTHORIZED);
         }
 
         @SuppressWarnings (value="unchecked")

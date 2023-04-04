@@ -18,12 +18,14 @@ import timeWizard.tokens.AuthToken;
 import timeWizard.tokens.AutoUpdatingKey;
 
 import java.sql.SQLDataException;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.fail;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.doNothing;
-import static org.mockito.Mockito.doThrow;
+import static org.mockito.Mockito.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.header;
@@ -158,5 +160,29 @@ public class CalendarControllerTest {
                 .andExpect(content().string("Task didn't delete"));
     }
 
+    @Test
+    public void getAllCalendarTasks_whenValidInput_thenReturns200() throws Exception{
+        List<CalendarTask> list = new ArrayList<>();
+        list.add(calendarTask);
+        doReturn(list).when(mockDao).readAll(CalendarTask.class,"email@mail.com");
 
+        mockMvc.perform(get("/getAllCalendarTasks")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .headers(getHttpHeaders()))
+                .andExpect(status().isAccepted())
+                .andExpect(content().string(new ObjectMapper().writeValueAsString(list)));
+    }
+
+    @Test
+    public void getAllCalendarTasks_whenInvalidInput_thenReturns400() throws Exception{
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("Authorization", "");
+        headers.add("Access-Control-Expose-Headers", "Authorization");
+        mockMvc.perform(get("/getAllCalendarTasks")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .headers(headers)
+                        .content(new ObjectMapper().writeValueAsString(calendarTask)))
+                .andExpect(status().isUnauthorized())
+                .andExpect(content().string("Token is expired"));
+    }
 }

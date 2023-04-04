@@ -138,14 +138,10 @@ public class TaskTableController extends AbstractController {
 
     @GetMapping(path="/getAllTableColumns")
     public ResponseEntity<?> getAllTableColumns(@RequestHeader(name = "Authorization") String token) {
-        EncryptedAuthToken encryptedToken = new EncryptedAuthToken(token);
         String email;
 
         try {
-            if(!encryptedToken.isTrue()) {
-                return new ResponseEntity<>("Token is false", HttpStatus.BAD_REQUEST);
-            }
-            email = encryptedToken.decrypt().getUserEmail();
+            email = getUserEmail(token);
         } catch (BadPaddingException e) {
             return new ResponseEntity<>("Token is expired", HttpStatus.UNAUTHORIZED);
         }
