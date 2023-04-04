@@ -73,65 +73,65 @@ public class TaskTableController extends AbstractController {
     }
 
     @PostMapping(path="/saveTableColumn", consumes ={"application/json"})
-    public ResponseEntity<String> saveTableColumn(@RequestBody TableColumn task, @RequestHeader(name = "Authorization") String token) {
+    public ResponseEntity<String> saveTableColumn(@RequestBody TableColumn column, @RequestHeader(name = "Authorization") String token) {
         String userEmail;
         try {
             userEmail = getUserEmail(token);
         } catch (BadPaddingException e) {
             return new ResponseEntity<>("Token is expired", HttpStatus.UNAUTHORIZED);
         }
-        task.setEmail(userEmail);
+        column.setEmail(userEmail);
 
         try {
-            dao.create(task);
+            dao.create(column);
         } catch (SQLDataException e) {
-            return new ResponseEntity<>("Task didn't create", HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>("Column didn't create", HttpStatus.BAD_REQUEST);
         }
 
         HttpHeaders headers = new HttpHeaders();
-        return new ResponseEntity<>("Task created", headers, HttpStatus.CREATED);
+        return new ResponseEntity<>("Column created", headers, HttpStatus.CREATED);
     }
 
     @PostMapping(path="/updateTableColumn", consumes ={"application/json"})
-    public ResponseEntity<String> updateTableColumn(@RequestBody TableColumn task, @RequestHeader(name = "Authorization") String token) {
+    public ResponseEntity<String> updateTableColumn(@RequestBody TableColumn column, @RequestHeader(name = "Authorization") String token) {
         String userEmail;
         try {
             userEmail = getUserEmail(token);
         } catch (BadPaddingException e) {
             return new ResponseEntity<>("Token is expired", HttpStatus.UNAUTHORIZED);
         }
-        task.setEmail(userEmail);
+        column.setEmail(userEmail);
 
         try {
-            dao.update(task);
+            dao.update(column);
         } catch (SQLDataException e) {
-            return new ResponseEntity<>("Task didn't update", HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>("Column didn't update", HttpStatus.BAD_REQUEST);
         }
 
         HttpHeaders headers = new HttpHeaders();
-        return new ResponseEntity<>("Task updated", headers, HttpStatus.CREATED);
+        return new ResponseEntity<>("Column updated", headers, HttpStatus.CREATED);
     }
 
 
 
     @PostMapping(path="/deleteTableColumn", consumes ={"application/json"})
-    public ResponseEntity<String> deleteTableColumn(@RequestBody TableColumn task, @RequestHeader(name = "Authorization") String token) {
+    public ResponseEntity<String> deleteTableColumn(@RequestBody TableColumn column, @RequestHeader(name = "Authorization") String token) {
         String userEmail;
         try {
             userEmail = getUserEmail(token);
         } catch (BadPaddingException e) {
             return new ResponseEntity<>("Token is expired", HttpStatus.UNAUTHORIZED);
         }
-        task.setEmail(userEmail);
+        column.setEmail(userEmail);
 
         try {
-            dao.delete(task);
+            dao.delete(column);
         } catch (SQLDataException e) {
-            return new ResponseEntity<>("Task didn't delete", HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>("Column didn't delete", HttpStatus.BAD_REQUEST);
         }
 
         HttpHeaders headers = new HttpHeaders();
-        return new ResponseEntity<>("Task deleted", headers, HttpStatus.CREATED);
+        return new ResponseEntity<>("Column deleted", headers, HttpStatus.CREATED);
     }
 
 

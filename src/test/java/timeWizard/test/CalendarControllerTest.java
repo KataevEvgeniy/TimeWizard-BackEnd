@@ -174,7 +174,7 @@ public class CalendarControllerTest {
     }
 
     @Test
-    public void getAllCalendarTasks_whenInvalidInput_thenReturns400() throws Exception{
+    public void getAllCalendarTasks_whenInvalidInput_thenReturns401() throws Exception{
         HttpHeaders headers = new HttpHeaders();
         headers.add("Authorization", "");
         headers.add("Access-Control-Expose-Headers", "Authorization");
