@@ -20,7 +20,7 @@ import java.util.ArrayList;
 public class TaskTableController extends AbstractController {
 
     @Autowired
-    TaskTableController(Dao dao) {
+    public TaskTableController(Dao dao) {
         super(dao);
     }
 

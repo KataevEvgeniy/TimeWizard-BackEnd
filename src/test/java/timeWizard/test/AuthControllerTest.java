@@ -2,9 +2,7 @@ package timeWizard.test;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.HttpHeaders;
@@ -13,22 +11,16 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
 import org.junit.jupiter.api.Test;
 import timeWizard.DAOLayer.Dao;
-import timeWizard.DAOLayer.MainDao;
 import timeWizard.config.SpringConfig;
 import timeWizard.controllers.AuthController;
 import timeWizard.entity.User;
 import timeWizard.tokens.AuthToken;
-import timeWizard.tokens.AutoUpdatingKey;
 import timeWizard.tokens.EncryptedAuthToken;
-
-
-import javax.transaction.Transactional;
 
 import java.sql.SQLDataException;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.*;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 
@@ -41,6 +33,7 @@ public class AuthControllerTest {
 
     @MockBean
     private Dao mockDao;
+
 
     @Test
     public void register_whenValidInput_thenReturns201() throws Exception {
@@ -111,6 +104,41 @@ public class AuthControllerTest {
         mockMvc.perform(post("/login")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(new ObjectMapper().writeValueAsString(null)))
+                .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    public void checkToken_whenValidInput_thenReturns202() throws Exception {
+        User user = new User("user","user@email.com","qwerty");
+        EncryptedAuthToken  encryptedAuthToken = new AuthToken(user).encrypt();
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("Authorization", encryptedAuthToken.toString());
+        headers.add("Access-Control-Expose-Headers", "Authorization");
+
+        mockMvc.perform(get("/checkToken")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .headers(headers))
+                .andExpect(status().isAccepted())
+                .andExpect(content().string("Token is true"));
+    }
+
+    @Test
+    public void checkToken_whenInvalidInput_thenReturns401() throws Exception {
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("Authorization", "");
+        headers.add("Access-Control-Expose-Headers", "Authorization");
+        mockMvc.perform(get("/checkToken")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .headers(headers))
+                .andExpect(status().isUnauthorized())
+                .andExpect(content().string("Token is expired"));
+    }
+
+    @Test
+    public void checkToken_whenInvalidInput_thenReturns400() throws Exception {
+        mockMvc.perform(get("/checkToken")
+                        .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isBadRequest());
     }
 }

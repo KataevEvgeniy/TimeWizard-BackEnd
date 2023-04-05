@@ -22,7 +22,7 @@ import timeWizard.tokens.EncryptedAuthToken;
 public class AuthController extends AbstractController {
 
 	@Autowired
-	AuthController(Dao dao) {
+	public AuthController(Dao dao) {
 		super(dao);
 	}
 

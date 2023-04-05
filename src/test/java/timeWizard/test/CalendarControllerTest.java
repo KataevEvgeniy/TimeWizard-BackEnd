@@ -12,6 +12,7 @@ import timeWizard.DAOLayer.Dao;
 import timeWizard.config.SpringConfig;
 import timeWizard.controllers.AuthController;
 import org.junit.jupiter.api.Test;
+import timeWizard.controllers.CalendarController;
 import timeWizard.entity.CalendarTask;
 import timeWizard.entity.User;
 import timeWizard.tokens.AuthToken;
@@ -30,7 +31,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.header;
 
-@WebMvcTest(AuthController.class)
+@WebMvcTest(CalendarController.class)
 @ContextConfiguration(classes = {SpringConfig.class})
 public class CalendarControllerTest {
 

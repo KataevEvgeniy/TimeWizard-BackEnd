@@ -18,7 +18,7 @@ import java.util.ArrayList;
 public class CalendarController extends AbstractController{
 
     @Autowired
-    CalendarController(Dao dao) {
+    public CalendarController(Dao dao) {
         super(dao);
     }
     @PostMapping(path="/saveCalendarTask", consumes ={"application/json"})

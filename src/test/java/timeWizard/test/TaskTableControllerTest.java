@@ -12,6 +12,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import timeWizard.DAOLayer.Dao;
 import timeWizard.config.SpringConfig;
 import timeWizard.controllers.AuthController;
+import timeWizard.controllers.TaskTableController;
 import timeWizard.entity.CalendarTask;
 import timeWizard.entity.TableColumn;
 import timeWizard.entity.TableTask;
@@ -30,7 +31,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@WebMvcTest(AuthController.class)
+@WebMvcTest(TaskTableController.class)
 @ContextConfiguration(classes = {SpringConfig.class})
 public class TaskTableControllerTest {
 
